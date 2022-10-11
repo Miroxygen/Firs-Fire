@@ -1,0 +1,21 @@
+{
+  "name": "firs-fire",
+  "version": "1.0.0",
+  "description": "A small fantasy game.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miroxygen/Firs-Fire.git"
+  },
+  "author": "Miranda Holmlund",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Miroxygen/Firs-Fire/issues"
+  },
+  "homepage": "https://github.com/Miroxygen/Firs-Fire#readme"
+}
