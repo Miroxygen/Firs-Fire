@@ -9,7 +9,10 @@
  template.innerHTML = `
  <style>
  #button {
-     
+    height:50px;
+    width:150px;
+    font-size:20px;
+    margin-top:300px;
  }
  </style>
  <button id="button">

@@ -34,4 +34,9 @@
          .appendChild(template.content.cloneNode(true))
        this.#characterAmount = this.shadowRoot.querySelector('#characterAmount')
      }
+
+     getNumberOfCharacters() {
+      const value = this.#characterAmount.options[this.#characterAmount.selectedIndex].value
+      return value;
+     }
    })

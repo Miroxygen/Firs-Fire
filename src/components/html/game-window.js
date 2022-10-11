@@ -19,8 +19,8 @@ import './select-game-parameters.js'
  }
  </style>
  <div id="window">
- <select-game-parameters></select-game-parameters>
- <simple-button>
+ <select-game-parameters id="parameters"></select-game-parameters>
+ <simple-button id="button">
  Start Game
  </simple-button>
  </div>
@@ -37,10 +37,22 @@ import './select-game-parameters.js'
       * @type {HTMLElement}
       */
      #window
+     #parameters
+     #button
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
          .appendChild(template.content.cloneNode(true))
        this.#window = this.shadowRoot.querySelector('#window')
+       this.#parameters = this.shadowRoot.querySelector('#parameters')
+       this.#button = this.shadowRoot.querySelector('#button')
+
+       this.#button.addEventListener('click', () => {
+        this.startGame()
+       })
+     }
+
+     startGame() {
+      console.log(this.#parameters.getNumberOfCharacters())
      }
    })
