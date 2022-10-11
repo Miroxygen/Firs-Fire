@@ -22,3 +22,10 @@ nav {
 li {
   padding-top: 20px;
 }
+
+#gameDiv {
+  margin: -200px 0px 0px 400px;
+  height: 600px;
+  width: 900px;
+  position: absolute;
+}
