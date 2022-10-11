@@ -48,7 +48,7 @@ import './select-game-parameters.js'
        this.#button = this.shadowRoot.querySelector('#button')
 
        this.#button.addEventListener('click', () => {
-        this.startGame()
+        this.startGame
        })
      }
 
