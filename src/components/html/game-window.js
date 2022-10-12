@@ -29,6 +29,7 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
  }
 
  #monsterHolder {
+  height:800px;
   margin-left:900px;
   position:absolute;
  }
@@ -98,7 +99,6 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
       }
 
       addCharacters() {
-        this.contentGenerator.connectCharacterCard(this.#mapHolder)
         for(let iterator = 0; iterator < this.#parameters.getNumberOfCharacters(); iterator++) {
           const newCardHolder = this.addAndReturnHolder(this.#charHolder)
           this.contentGenerator.connectCharacterCard(newCardHolder)

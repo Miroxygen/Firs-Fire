@@ -2,8 +2,6 @@ import { CharacterGenerator } from "../generators/character-generator.js"
 import { getArrayFromString } from "../helper-functions/string-to-array.js"
 
 const characterGenerator = new CharacterGenerator()
-const characterInfo = characterGenerator.getCharacter()
-const characterAttributes = getArrayFromString(characterInfo.Traits, ",")
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -74,9 +72,9 @@ table {
 }
 </style>
 <div id="cardInfo">
-<div id="nameHolder">${characterInfo.Name}</div>
-<div id="classHolder">Class : ${characterInfo.Class}</div>
-<div id="raceHolder">Race : ${characterInfo.Race}</div>
+<div id="nameHolder"></div>
+<div id="classHolder">Class : </div>
+<div id="raceHolder">Race : </div>
 <table id="attributesHolder">
     <tr id="tableHolder">
         <td>${characterAttributes[0]}</td>
@@ -90,13 +88,54 @@ table {
 </div>
 `
 
+
 customElements.define('random-character-info', 
 
 class extends HTMLElement {
-    
+
+    #cardInfo 
+    #nameHolder
+    #classHolder
+    #raceHolder
+    #attributesHolder 
+
     constructor() {
+
         super()
         this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+        this.#cardInfo = this.shadowRoot.querySelector('#cardInfo')
+        this.#nameHolder = this.shadowRoot.querySelector('#nameHolder')
+        this.#classHolder = this.shadowRoot.querySelector('#classHolder')
+        this.#raceHolder = this.shadowRoot.querySelector('#raceHolder')
+        this.#attributesHolder = this.shadowRoot.querySelector('#attributesHolder')
+        this.character = characterGenerator.getCharacter()
+    }
+
+    setNewInfo() {
+      this.setName()
+      this.setClass()
+      this.setRace()
+      this.setAttributes()
+    }
+
+    setName() {
+      this.#nameHolder.textContent = this.character.Name
+    }
+
+    setClass() {
+      this.#classHolder.textContent = `Class : ${this.character.Class}`
+    }
+
+    setRace() {
+      this.#raceHolder.textContent = `Race : ${this.character.Race}`
+    }
+
+    setAttributes() {
+      const characterAttributes = getArrayFromString(this.character.Traits, ",")
+      for(let iterator = 0; iterator < this.#attributesHolder.children; iterator++) {
+        this.#attributesHolder.children[iterator].textContent = characterAttributes[iterator]
+      }
     }
 })

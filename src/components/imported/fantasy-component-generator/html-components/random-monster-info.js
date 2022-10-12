@@ -106,10 +106,46 @@ Legendary attack : ${monsterInfo.LegendaryAttack}
 customElements.define('random-monster-info', 
 
 class extends HTMLElement {
-    
+    #typeHolder
+    #subtypeHolder
+    #attackHolder
+    #attributesHolder
     constructor() {
         super()
         this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+        this.#typeHolder = this.shadowRoot.querySelector('#typeHolder')
+        this.#subtypeHolder = this.shadowRoot.querySelector('#subtypeHolder')
+        this.#attackHolder = this.shadowRoot.querySelector('#attackHolder')
+        this.#attributesHolder = this.shadowRoot.querySelector('#attributesHolder')
+
+        this.monster = monsterGenerator.getRandomMonster()
+    }
+
+    setInfo() {
+      this.setType()
+      this.setSubtype()
+      this.setAttacks()
+      this.setAttributes()
+    }
+
+    setType() {
+      this.#typeHolder.textContent = this.monster.Type
+    }
+
+    setSubtype() {
+      this.#subtypeHolder.textContent = this.monster.Subtype
+    }
+
+    setAttacks() {
+      this.#attackHolder.textContent = `Normal attack : ${this.monster.NormalAttack} Legendary attack : ${this.monster.LegendaryAttack}`
+    }
+
+    setAttributes() {
+      const monsterAttributes = getArrayFromString(this.monster.Traits, ",")
+      for(let iterator = 0; iterator < this.#attributesHolder.children; iterator++) {
+        this.#attributesHolder.children[iterator].textContent = monsterAttributes[iterator]
+      }
     }
 })
