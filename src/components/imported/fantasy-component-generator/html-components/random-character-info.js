@@ -77,12 +77,12 @@ table {
 <div id="raceHolder">Race : </div>
 <table id="attributesHolder">
     <tr id="tableHolder">
-        <td>${characterAttributes[0]}</td>
-        <td>${characterAttributes[1]}</td>
-        <td>${characterAttributes[2]}</td>
-        <td>${characterAttributes[3]}</td>
-        <td>${characterAttributes[4]}</td>
-        <td>${characterAttributes[5]}</td>  
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>  
     </tr>
 </table>
 </div>

@@ -25,13 +25,20 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
  }
 
  #charHolder {
+  height:800px;
+  width:500px
   position:absolute;
  }
 
  #monsterHolder {
   height:800px;
+  width:500px;
   margin-left:900px;
   position:absolute;
+ }
+ #beforeStart {
+  position:absolute;
+  z-index:10;
  }
  </style>
  <div id="window">
