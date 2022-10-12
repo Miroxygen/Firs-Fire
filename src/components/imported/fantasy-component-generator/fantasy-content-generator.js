@@ -9,24 +9,23 @@ import './html-components/map.js'
  * component in your document.
  */
 export class FantasyContentGenerator {
-    #characterCard
-    #monsterCard
-    #map
+    
     constructor() {
-        this.#characterCard = document.createElement('random-character-card')
-        this.#monsterCard = document.createElement('random-monster-card')
-        this.#map = document.createElement('fantasy-map')
+         
     }
 
     connectCharacterCard(HTMLElement) {
-        HTMLElement.append(this.#characterCard)
+        const characterCard = document.createElement('random-character-card')
+        HTMLElement.append(characterCard)
     }
 
     connectMonsterCard(HTMLElement) {
-        HTMLElement.appendChild(this.#monsterCard)
+        const monsterCard = document.createElement('random-monster-card')
+        HTMLElement.appendChild(monsterCard)
     }  
 
     connectMap(HTMLElement) {
-        HTMLElement.appendChild(this.#map)
+        const map = document.createElement('fantasy-map')
+        HTMLElement.appendChild(map)
     }
 }
