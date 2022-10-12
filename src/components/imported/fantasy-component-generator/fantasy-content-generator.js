@@ -19,7 +19,7 @@ export class FantasyContentGenerator {
     }
 
     connectCharacterCard(HTMLElement) {
-        HTMLElement.appendChild(this.#characterCard)
+        HTMLElement.append(this.#characterCard)
     }
 
     connectMonsterCard(HTMLElement) {
