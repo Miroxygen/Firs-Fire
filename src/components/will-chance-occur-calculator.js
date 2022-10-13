@@ -16,7 +16,7 @@ export class WillChanceOccurCalculator {
     for(let iterator = 0; iterator < percentage; iterator++) {
       chanceNumbers.push(Math.floor(Math.random() * 100))
     }
-    if(chanceNumbers.includes(Math.floor(Math.random() * 100))) {
+    if(chanceNumbers.includes(Math.floor(Math.random() * (100 - 1 + 1) + 1))) {
       return true;
     } 
   }
