@@ -98,6 +98,7 @@ class extends HTMLElement {
     #classHolder
     #raceHolder
     #attributesHolder 
+    #tableHolder
 
     constructor() {
 
@@ -110,6 +111,7 @@ class extends HTMLElement {
         this.#classHolder = this.shadowRoot.querySelector('#classHolder')
         this.#raceHolder = this.shadowRoot.querySelector('#raceHolder')
         this.#attributesHolder = this.shadowRoot.querySelector('#attributesHolder')
+        this.#tableHolder = this.shadowRoot.querySelector('#tableHolder')
         this.character = characterGenerator.getCharacter()
     }
 
@@ -134,8 +136,8 @@ class extends HTMLElement {
 
     setAttributes() {
       const characterAttributes = getArrayFromString(this.character.Traits, ",")
-      for(let iterator = 0; iterator < this.#attributesHolder.children; iterator++) {
-        this.#attributesHolder.children[iterator].textContent = characterAttributes[iterator]
+      for(let iterator = 0; iterator < this.#tableHolder.children.length; iterator++) {
+        this.#tableHolder.children[iterator].textContent = characterAttributes[iterator]
       }
     }
 })

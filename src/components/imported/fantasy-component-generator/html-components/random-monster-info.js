@@ -85,19 +85,18 @@ table {
 }
 </style>
 <div id="cardInfo">
-<div id="typeHolder">${monsterInfo.Type}</div>
-<div id="subtypeHolder">${monsterInfo.Subtype}</div>
-<div id="attackHolder">Main attack : ${monsterInfo.NormalAttack}
-Legendary attack : ${monsterInfo.LegendaryAttack}
+<div id="typeHolder"></div>
+<div id="subtypeHolder"></div>
+<div id="attackHolder">
 </div>
 <table id="attributesHolder">
     <tr id="tableHolder">
-        <td>${monsterAttributes[0]}</td>
-        <td>${monsterAttributes[1]}</td>
-        <td>${monsterAttributes[2]}</td>
-        <td>${monsterAttributes[3]}</td>
-        <td>${monsterAttributes[4]}</td>
-        <td>${monsterAttributes[5]}</td>  
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>  
     </tr>
 </table>
 </div>
@@ -110,6 +109,7 @@ class extends HTMLElement {
     #subtypeHolder
     #attackHolder
     #attributesHolder
+    #tableHolder
     constructor() {
         super()
         this.attachShadow({ mode: 'open' })
@@ -119,6 +119,7 @@ class extends HTMLElement {
         this.#subtypeHolder = this.shadowRoot.querySelector('#subtypeHolder')
         this.#attackHolder = this.shadowRoot.querySelector('#attackHolder')
         this.#attributesHolder = this.shadowRoot.querySelector('#attributesHolder')
+        this.#tableHolder = this.shadowRoot.querySelector('#tableHolder')
 
         this.monster = monsterGenerator.getRandomMonster()
     }
@@ -139,13 +140,13 @@ class extends HTMLElement {
     }
 
     setAttacks() {
-      this.#attackHolder.textContent = `Normal attack : ${this.monster.NormalAttack} Legendary attack : ${this.monster.LegendaryAttack}`
+      this.#attackHolder.textContent = `Normal attack : ${this.monster.NormalAttack} \n Legendary attack : ${this.monster.LegendaryAttack}`
     }
 
     setAttributes() {
       const monsterAttributes = getArrayFromString(this.monster.Traits, ",")
-      for(let iterator = 0; iterator < this.#attributesHolder.children; iterator++) {
-        this.#attributesHolder.children[iterator].textContent = monsterAttributes[iterator]
+      for(let iterator = 0; iterator < this.#tableHolder.children.length; iterator++) {
+        this.#tableHolder.children[iterator].textContent = monsterAttributes[iterator]
       }
     }
 })

@@ -38,6 +38,7 @@ class extends HTMLElement {
             this.constructRoads()
             this.makeMountainRanges()
             this.constructTowns()
+            this.#getMap.remove()
         })
     }
 

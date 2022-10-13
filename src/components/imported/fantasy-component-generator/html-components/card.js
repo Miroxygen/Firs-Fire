@@ -5,6 +5,7 @@ template.innerHTML = `
     height:600px;
     width:550px;
     margin:0 auto;
+    position:absolute;
 }
 
 #cardIcon {
@@ -19,7 +20,7 @@ template.innerHTML = `
     height:100px;
     width:100px;
     border-radius:50%;
-    margin:0 auto;
+    margin:0 auto 0 200px;
     transition:transform 1.5s;
     background: radial-gradient(circle, rgba(200,223,245,1) 0%, rgba(121,134,89,1) 100%);
 }
@@ -36,6 +37,7 @@ template.innerHTML = `
 .scaleAnimation {
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
+    z-index:10;
 }
 .characterStyleCard {
     background: radial-gradient(circle, rgba(241,241,222,1) 0%, rgba(210,203,149,1) 100%);

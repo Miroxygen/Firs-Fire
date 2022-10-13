@@ -13,6 +13,7 @@ template.innerHTML = `
     margin-left:330px;
 }
 
+
 </style>
 <fantasy-card id="card">
 <random-character-info id="info"></random-character-info>

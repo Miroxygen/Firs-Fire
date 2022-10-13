@@ -26,7 +26,7 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
 
  #charHolder {
   height:800px;
-  width:500px
+  width:500px;
   position:absolute;
  }
 
@@ -106,9 +106,14 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
       }
 
       addCharacters() {
+        let margin = 20
         for(let iterator = 0; iterator < this.#parameters.getNumberOfCharacters(); iterator++) {
+          console.log(margin)
           const newCardHolder = this.addAndReturnHolder(this.#charHolder)
+          newCardHolder.textContent = `Character number ${iterator + 1}`
+          newCardHolder.style.marginTop = `${margin}px`
           this.contentGenerator.connectCharacterCard(newCardHolder)
+          margin = margin + 200
         }  
       }
 
@@ -121,6 +126,7 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
 
       addAndReturnHolder(HTMLElement) {
         const holder = document.createElement('div')
+        holder.style.position = "absolute"
         HTMLElement.append(holder)
         return holder
       }

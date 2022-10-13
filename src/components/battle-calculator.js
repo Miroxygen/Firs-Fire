@@ -1,5 +1,5 @@
-import { ResistanceCalculator } from "./resistance-calculator"
-import { WillChanceOccurCalculator } from "./will-chance-occur-calculator"
+import { ResistanceCalculator } from "./resistance-calculator.js"
+import { WillChanceOccurCalculator } from "./will-chance-occur-calculator.js"
 
 /**
  * Determines who wins a single battle.
