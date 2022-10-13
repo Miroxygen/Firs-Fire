@@ -7,8 +7,7 @@ import { WillChanceOccurCalculator } from "./will-chance-occur-calculator"
 export class BattleCalculator {
   constructor() {
     this.hitNumber = 0
-    this.magicalStrike = 0
-    this.physicalStrike = 0
+    this.strike = 0
     this.resistanceCalculator = new ResistanceCalculator()
     this.chanceCalculator = new WillChanceOccurCalculator()
   }
@@ -16,7 +15,7 @@ export class BattleCalculator {
    /*
    * Determines if hit should be physical.
    */
-   isphysicallHit(strength, intelligence) {
+   isPhysicallHit(strength, intelligence) {
     if(strength > intelligence) {
       return true
     } 
@@ -37,23 +36,39 @@ export class BattleCalculator {
     return this.chanceCalculator.willItOccur(5)
   }
 
-  getMagicalStrikeImpact() {
+  setMagicalStrikeImpact() {
     this.resistanceCalculator.setMagicResistance(30)
     const magicResistance = this.resistanceCalculator.getMagicResistance()
-    let strike = (magicResistance / 100) * this.hitNumber
-    return strike
+    this.strike = (magicResistance / 100) * this.hitNumber
   }
 
-  getPhysicalStrikeImpact() {
+  setPhysicalStrikeImpact() {
     this.resistanceCalculator.setPhysicalResistance(20)
     const physicalResistance = this.resistanceCalculator.getPhysicalResistance()
-    let strike = (physicalResistance / 100) * this.hitNumber
-    return strike
+    this.strike = (physicalResistance / 100) * this.hitNumber
   }
 
   willAttackBeDodged() {
     this.resistanceCalculator.setDodgeChance(10)
     const dodgeChance = this.resistanceCalculator.getDodgeChance()
     return this.chanceCalculator.willItOccur(dodgeChance)
+  }
+
+  determineBattleOutcome(health) {
+    if(this.willAttackBeDodged) {
+      return "Attack is dodged"
+    }
+    
+    if(this.isPhysicallHit) {
+      this.setPhysicalStrikeImpact
+    } else {
+      this.setMagicalStrikeImpact
+    }
+
+    if(this.isLegendaryAttack) {
+      this.strike = this.strike * 3
+    }
+
+    health -= this.strike
   }
 }
