@@ -6,8 +6,11 @@
  */
 
 import './button.js'
-import './select-game-parameters.js'
-import { FantasyContentGenerator } from '../imported/fantasy-component-generator/fantasy-content-generator.js'
+import './before-start.js'
+import './game-board.js'
+import './die-ui.js'
+import './game-piece.js'
+import './event-handler.js'
 
  const template = document.createElement('template')
  template.innerHTML = `
@@ -18,42 +21,29 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
      background: linear-gradient(194deg, rgba(186,184,182,1) -100%, rgba(62,60,60,1) 100%);
      position:absolute;
  }
- #mapHolder {
-  margin-left:500px;
-  margin-top:50px;
-  position:absolute;
- }
 
- #charHolder {
-  height:800px;
-  width:500px;
-  position:absolute;
- }
-
- #monsterHolder {
-  height:800px;
-  width:500px;
-  margin-left:900px;
-  position:absolute;
- }
  #beforeStart {
   position:absolute;
   z-index:10;
  }
+ #dieUi {
+  margin:600px 0px 0px 950px;
+  position:absolute;
+ }
+
+ .hidden {
+  display:none;
+ }
  </style>
+
  <div id="window">
-  <div id="startedGame">
-    <div id="mapHolder"></div>
-    <div id="charHolder"></div>
-    <div id="monsterHolder"></div>
-  </div>
-  <div id="beforeStart">
-    <select-game-parameters id="parameters">
-    </select-game-parameters>
-    <simple-button id="button">
-      Start Game
-    </simple-button>
-  </div>
+    <event-handler id="eventHandler" class="hidden"></event-handler>
+    <game-board id="gameBoard" class="hidden">
+        <game-piece id="piece"></game-piece>
+    </game-board>
+    <die-ui id="dieUi" class="hidden"></die-ui>
+    <simple-button id="moveButton" class="hidden">Make move</simple-button>
+    <before-start id="beforeStart"></before-start>
  </div>
  `
  
@@ -65,13 +55,14 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
   export class GameWindow extends HTMLElement {
      
      #window
-     #parameters
-     #button
-     #startedGame
      #beforeStart
+     #gameBoard
      #mapHolder
-     #charHolder
-     #monsterHolder
+     #moveButton
+     #dieUi
+     #piece
+     #mapConfirmation
+     #eventHandler
 
      constructor () {
        super()
@@ -80,55 +71,56 @@ import { FantasyContentGenerator } from '../imported/fantasy-component-generator
          .appendChild(template.content.cloneNode(true))
          
        this.#window = this.shadowRoot.querySelector('#window')
-       this.#parameters = this.shadowRoot.querySelector('#parameters')
-       this.#button = this.shadowRoot.querySelector('#button')
        this.#beforeStart = this.shadowRoot.querySelector('#beforeStart')
-       this.#startedGame = this.shadowRoot.querySelector('#startedGame')
-       this.#charHolder = this.shadowRoot.querySelector('#charHolder')
-       this.#mapHolder = this.shadowRoot.querySelector('#mapHolder')
-       this.#monsterHolder = this.shadowRoot.querySelector('#monsterHolder')
-       this.contentGenerator = new FantasyContentGenerator()
+       this.#gameBoard = this.shadowRoot.querySelector('#gameBoard')
+       this.#moveButton = this.shadowRoot.querySelector('#moveButton')
+       this.#dieUi = this.shadowRoot.querySelector('#dieUi')
+       this.#piece = this.shadowRoot.querySelector('#piece')
+       this.#eventHandler = this.shadowRoot.querySelector('#eventHandler')
 
-       this.#button.addEventListener('click', () => {
+       this.#window.addEventListener('parametersDecided', () => {
+        this.generateGameBoard()
+       })
+
+       this.#window.addEventListener('mapDecided', () => {
         this.startGame()
-        this.#beforeStart.remove()
+       })
+
+       this.#window.addEventListener('dieRolled', () => {
+        this.makeMove()
+        this.getEvent()
+       })
+
+       this.#window.addEventListener('eventOver', () => {
+        this.newTurn()
        })
      }
 
-      startGame() {
-        this.addMap()
-        this.addCharacters()
-        this.addMonsters()
+     startGame() {
+      this.#dieUi.classList.remove('hidden')
+      this.#eventHandler.classList.remove('hidden')
+     }
+
+      generateGameBoard() {
+        const numberOfCharacters = this.#beforeStart.getGameParameters()
+        this.#beforeStart.remove()
+        this.#gameBoard.classList.remove('hidden')
+        this.#gameBoard.generateGameContent(numberOfCharacters)
       }
 
-      addMap() {
-        this.contentGenerator.connectMap(this.#mapHolder)
+      newTurn() {
+        this.#dieUi.makeRollVisible()
+        this.#dieUi.removeFaces()
       }
 
-      addCharacters() {
-        let margin = 20
-        for(let iterator = 0; iterator < this.#parameters.getNumberOfCharacters(); iterator++) {
-          console.log(margin)
-          const newCardHolder = this.addAndReturnHolder(this.#charHolder)
-          newCardHolder.textContent = `Character number ${iterator + 1}`
-          newCardHolder.style.marginTop = `${margin}px`
-          this.contentGenerator.connectCharacterCard(newCardHolder)
-          margin = margin + 200
-        }  
+      makeMove() {
+        const dieValue = this.#dieUi.getDieValue()
+        this.#piece.move(dieValue)
       }
 
-      addMonsters() {
-        for(let iterator = 0; iterator < 4; iterator++) {
-          const newCardHolder = this.addAndReturnHolder(this.#monsterHolder)
-          this.contentGenerator.connectMonsterCard(newCardHolder)
-        }
-      }
-
-      addAndReturnHolder(HTMLElement) {
-        const holder = document.createElement('div')
-        holder.style.position = "absolute"
-        HTMLElement.append(holder)
-        return holder
+      getEvent() {
+        this.#eventHandler.setRandomEvent()
+        this.#eventHandler.showEventButton()
       }
    }
 

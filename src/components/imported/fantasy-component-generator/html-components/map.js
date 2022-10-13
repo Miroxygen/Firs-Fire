@@ -31,6 +31,7 @@ class extends HTMLElement {
         .appendChild(template.content.cloneNode(true))
         this.#map = this.shadowRoot.querySelector('#map')
         this.#getMap = this.shadowRoot.querySelector('#getMap')
+        this.isMapGenerated = false
 
         this.#getMap.addEventListener('click', () => {
             this.destroyCurrentMap()
@@ -38,7 +39,7 @@ class extends HTMLElement {
             this.constructRoads()
             this.makeMountainRanges()
             this.constructTowns()
-            this.#getMap.remove()
+            this.isMapGenerated = true
         })
     }
 
@@ -143,5 +144,13 @@ class extends HTMLElement {
         while (this.#map.firstChild) {
             this.#map.removeChild(this.#map.lastChild)
         }
+    }
+
+    hasMapBeenGenerated() {
+      return this.isMapGenerated
+    }
+
+    removeMapGeneratorButton() {
+      this.#getMap.remove()
     }
 })
