@@ -1,45 +1,24 @@
+import { ResistanceCalculator } from "./resistance-calculator"
+import { WillChanceOccurCalculator } from "./will-chance-occur-calculator"
 
 /**
  * Determines who wins a single battle.
  */
 export class BattleCalculator {
   constructor() {
-    this.hitType = ''
     this.hitNumber = 0
-    this.magicResistance = 0
-    this.physicalResistance = 0
-    this.dodgeChance = 20
+    this.magicalStrike = 0
+    this.physicalStrike = 0
+    this.resistanceCalculator = new ResistanceCalculator()
+    this.chanceCalculator = new WillChanceOccurCalculator()
   }
 
-  getMagicalStrikeImpact() {
-    let strike = (this.magicResistance / 100) * this.hitNumber
-    return strike
-  }
-
-  getPhysicalStrikeImpact() {
-    let strike = (this.physicalResistance / 100) * this.hitNumber
-    return strike
-  }
-
-  willAttackBeDodged() {
-    const chanceNumbers = []
-    for(let iterator = 0; iterator < this.dodgeChance; iterator++) {
-      chanceNumbers.push(Math.floor(Math.random() * 100))
-    }
-    console.log(chanceNumbers)
-    if(chanceNumbers.includes(42)) {
-      return "true"
-    } else {
-      return "false"
-    }
-  }
-
-  /*
+   /*
    * Determines if hit should be physical.
    */
-  isphysicallHit(strength, intelligence) {
+   isphysicallHit(strength, intelligence) {
     if(strength > intelligence) {
-      this.hitType = "physical"
+      return true
     } 
   }
 
@@ -50,33 +29,31 @@ export class BattleCalculator {
    */
   isMagicalHit(intelligence, strength) {
     if(intelligence > strength) {
-      this.hitType = "magical"
+      return true
     }
   }
 
-  /**
-   * Gets resistance as a percentage parameter, from 5 to 50.
-   * @param {number} wisdom 
-   */
-  setMagicResistance(wisdom) {
-    for(let iterator = 0; iterator < wisdom; iterator++) {
-      this.magicResistance += 5
-    }
+  isLegendaryAttack() {
+    return this.chanceCalculator.willItOccur(5)
   }
 
-  /**
-   * Same as magc resistance.
-   * @param {number} dexterity 
-   */
-  setPhysicalResistance(dexterity) {
-    for(let iterator = 0; iterator < dexterity; iterator++) {
-      this.physicalResistance += 5
-    }
+  getMagicalStrikeImpact() {
+    this.resistanceCalculator.setMagicResistance(30)
+    const magicResistance = this.resistanceCalculator.getMagicResistance()
+    let strike = (magicResistance / 100) * this.hitNumber
+    return strike
   }
 
-  setDodgeChance(charisma) {
-    for(let iterator = 0; iterator < charisma; iterator++) {
-      this.dodgeChance += 3
-    }
+  getPhysicalStrikeImpact() {
+    this.resistanceCalculator.setPhysicalResistance(20)
+    const physicalResistance = this.resistanceCalculator.getPhysicalResistance()
+    let strike = (physicalResistance / 100) * this.hitNumber
+    return strike
+  }
+
+  willAttackBeDodged() {
+    this.resistanceCalculator.setDodgeChance(10)
+    const dodgeChance = this.resistanceCalculator.getDodgeChance()
+    return this.chanceCalculator.willItOccur(dodgeChance)
   }
 }
