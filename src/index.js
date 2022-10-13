@@ -1,9 +1,9 @@
 
-import { BattleCalculator } from './components/battle-calculator.js'
+import { WillChanceOccurCalculator } from './components/will-chance-occur-calculator.js'
 
+const chance = new WillChanceOccurCalculator()
 
-const battleCalculator = new BattleCalculator()
+console.log(chance.willItOccur(100))
 
-console.log(battleCalculator.willAttackBeDodged())
 
 

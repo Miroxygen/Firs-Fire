@@ -13,11 +13,16 @@ export class WillChanceOccurCalculator {
    */
   willItOccur(percentage) {
     const chanceNumbers = []
+    const random = Math.floor(Math.random() * 100)
     for(let iterator = 0; iterator < percentage; iterator++) {
       chanceNumbers.push(Math.floor(Math.random() * 100))
     }
-    if(chanceNumbers.includes(Math.floor(Math.random() * 100))) {
-      return true;
-    } 
+    console.log(chanceNumbers)
+    console.log(random)
+    if(chanceNumbers.includes(random)) {
+      return true
+    } else {
+      return false
+    }
   }
 }
