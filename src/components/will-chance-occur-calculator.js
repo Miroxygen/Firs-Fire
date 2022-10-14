@@ -18,6 +18,8 @@ export class WillChanceOccurCalculator {
     }
     if(chanceNumbers.includes(Math.floor(Math.random() * (100 - 1 + 1) + 1))) {
       return true;
-    } 
+    } else {
+      return false
+    }
   }
 }

@@ -23,11 +23,20 @@ export class RandomEvent {
       description : "You find a soaked and dirty old man praying to a dead tree. He whispers 'The milk is in the hare!' You quickly walk away."
     }
 
+    this.bossEvent = {
+      name : "Boss",
+      description : "Finally the boss! Good luck!"
+    }
+
     this.events = [this.madmanEvent, this.monsterEvent, this.innEvent, this.beggarEvent]
   }
 
   getRandomEvent() {
     const randomEvent = this.events[Math.floor(Math.random() * 4)]
     return randomEvent
+  }
+
+  getBossEvent() {
+    return this.bossEvent
   }
 }

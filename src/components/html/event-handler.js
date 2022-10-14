@@ -78,11 +78,19 @@ import { RandomEvent } from "../random-event.js"
         this.#eventText.textContent = newEvent.description
        }
 
-       ifMonsterEvent(eventName) {
+       ifMonsterEvent(eventName, bossTime) {
         if(eventName === "Monster") {
-          this.dispatchEvent(new CustomEvent('monsterFight', {
-            bubbles: true
-          }))
+          if(bossTime) {
+            const bossEvent = this.randomEvent.getBossEvent()
+            this.#eventText.textContent = bossEvent.description
+            this.dispatchEvent(new CustomEvent('bossFight', {
+              bubbles: true
+            }))
+          } else {
+            this.dispatchEvent(new CustomEvent('monsterFight', {
+              bubbles: true
+            }))
+          }
         }
        }
 

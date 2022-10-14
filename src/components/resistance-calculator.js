@@ -31,7 +31,7 @@ export class ResistanceCalculator {
 
   setDodgeChance(charisma) {
     for(let iterator = 0; iterator < charisma; iterator++) {
-      this.dodgeChance += 3
+      this.dodgeChance += 0.5
     }
   }
 

@@ -27,7 +27,19 @@
   position:absolute;
  }
 
- #monsterHolder {
+ random-character-card {
+  margin:50px;
+ }
+
+ #currentMonster {
+  height:800px;
+  width:500px;
+  margin-left:1050px;
+  margin-top:40px;
+  position:absolute;
+ }
+
+ #bossHolder {
   height:800px;
   width:500px;
   margin-left:1050px;
@@ -50,7 +62,9 @@
       <button id="mapConfirmation" class="hidden">I want this map!</button>
     </div>
     <div id="charHolder"></div>
-    <div id="monsterHolder"></div>
+    <div id="monsterHolder" class="hidden"></div>
+    <div id="currentMonster"></div>
+    <div id="bossHolder" class="hidden"></div>
   </div>
  `
  
@@ -66,6 +80,8 @@
      #mapConfirmation
      #charHolder
      #monsterHolder
+     #currentMonster
+     #bossHolder
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
@@ -76,6 +92,8 @@
          this.#mapConfirmation = this.shadowRoot.querySelector('#mapConfirmation')
          this.#charHolder = this.shadowRoot.querySelector('#charHolder')
          this.#monsterHolder = this.shadowRoot.querySelector('#monsterHolder')
+         this.#currentMonster = this.shadowRoot.querySelector('#currentMonster')
+         this.#bossHolder = this.shadowRoot.querySelector('#bossHolder')
 
          this.contentGenerator = new FantasyContentGenerator()
          this.bossMonster = ""
@@ -98,7 +116,6 @@
         this.addCharacters(numberOfCharacters)
         this.addMonsters()
         this.decideOnBoss()
-        console.log(this.bossMonster)
       }
 
       decideMap() {
@@ -113,30 +130,22 @@
       }
 
        addCharacters(numberOfCharacters) {
-        let margin = 20
         for(let iterator = 0; iterator < numberOfCharacters; iterator++) {
-          console.log(margin)
-          const newCardHolder = this.addAndReturnHolder(this.#charHolder)
-          newCardHolder.textContent = `Character number ${iterator + 1}`
-          newCardHolder.style.marginTop = `${margin}px`
-          this.contentGenerator.connectCharacterCard(newCardHolder)
-          margin = margin + 200
+          this.contentGenerator.connectCharacterCard(this.#charHolder)
         }  
       }
 
       addMonsters() {
-        let margin = 20
         for(let iterator = 0; iterator < 4; iterator++) {
-          const newCardHolder = this.addAndReturnHolder(this.#monsterHolder)
-          newCardHolder.style.marginTop = `${margin}px`
-          this.contentGenerator.connectMonsterCard(newCardHolder)
-          margin = margin + 200
+          this.contentGenerator.connectMonsterCard(this.#monsterHolder)
         }
       }
 
       decideOnBoss() {
-        this.bossMonster = this.#monsterHolder.children[Math.floor(Math.random() * 4)].children[0]
+        this.bossMonster = this.#monsterHolder.children[Math.floor(Math.random() * 4)]
         this.bossMonster.setCardAsBoss()
+        this.#bossHolder.appendChild(this.bossMonster)
+        this.bossMonster.dataset.boss = true
       }
 
       addAndReturnHolder(HTMLElement) {
@@ -144,6 +153,33 @@
         holder.style.position = "absolute"
         HTMLElement.append(holder)
         return holder
+      }
+
+      getMonsterForFight() {
+        let randomMonster = this.#monsterHolder.children[Math.floor(Math.random() * 3)]
+        this.#currentMonster.appendChild(randomMonster)
+        return randomMonster
+      }
+
+      getCharacterForFight() {
+        const chosenCharacter = this.#charHolder.children[0]
+        return chosenCharacter
+      }
+
+      areThereCharactersLeft() {
+        if(this.#charHolder.children.length !== 0) {
+          return true
+        } else {
+          return false
+        }
+      }
+
+      removeCharacter(character) {
+        character.remove()
+      }
+
+      removeMonster(monster) {
+        monster.remove()
       }
 
      })

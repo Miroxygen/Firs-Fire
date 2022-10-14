@@ -40,6 +40,6 @@ class extends HTMLElement {
     }
 
     getCharacterAttributes() {
-      return this.#info.getCharacterAttributes()
+      return this.#info.getAttributes()
     }
 })

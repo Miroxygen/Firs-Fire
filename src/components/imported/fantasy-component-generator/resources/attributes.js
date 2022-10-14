@@ -12,7 +12,7 @@ export class Attributes extends Resource {
     #attributeString
     constructor() {
         super()
-        this.#attributeValues = ["1", "2", "3", "4", "5"," 6", "7", "8", "9", "10"]
+        this.#attributeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         this.#strength
         this.#charisma
         this.#dexterity

@@ -11,6 +11,7 @@ import './game-board.js'
 import './die-ui.js'
 import './game-piece.js'
 import './event-handler.js'
+import './game-battle.js'
 
  const template = document.createElement('template')
  template.innerHTML = `
@@ -31,12 +32,18 @@ import './event-handler.js'
   position:absolute;
  }
 
+ #battle {
+  z-index:10;
+  position:absolute;
+ }
+
  .hidden {
   display:none;
  }
  </style>
 
  <div id="window">
+    <game-battle id="battle" class="hidden"></game-battle>
     <event-handler id="eventHandler" class="hidden"></event-handler>
     <game-board id="gameBoard" class="hidden">
         <game-piece id="piece"></game-piece>
@@ -63,6 +70,7 @@ import './event-handler.js'
      #piece
      #mapConfirmation
      #eventHandler
+     #battle
 
      constructor () {
        super()
@@ -77,6 +85,10 @@ import './event-handler.js'
        this.#dieUi = this.shadowRoot.querySelector('#dieUi')
        this.#piece = this.shadowRoot.querySelector('#piece')
        this.#eventHandler = this.shadowRoot.querySelector('#eventHandler')
+       this.#battle = this.shadowRoot.querySelector('#battle')
+
+       this.characterForBattle = undefined
+       this.monsterForBattle = undefined
 
        this.#window.addEventListener('parametersDecided', () => {
         this.generateGameBoard()
@@ -93,6 +105,18 @@ import './event-handler.js'
 
        this.#window.addEventListener('eventOver', () => {
         this.newTurn()
+       })
+
+       this.#window.addEventListener('monsterFight', () => {
+        this.doBattle()
+       })
+
+       this.#window.addEventListener('monsterDied', () => {
+        this.endBattleMonsterDied()
+       })
+
+       this.#window.addEventListener('characterDied', () => {
+        this.endBattleCharacterDied()
        })
      }
 
@@ -121,6 +145,36 @@ import './event-handler.js'
       getEvent() {
         this.#eventHandler.setRandomEvent()
         this.#eventHandler.showEventButton()
+      }
+
+      doBattle() {
+        this.#eventHandler.hideEventButton()
+        this.#dieUi.classList.toggle('hidden')
+        this.monsterForBattle = this.#gameBoard.getMonsterForFight()
+        this.characterForBattle = this.#gameBoard.getCharacterForFight()
+        this.#battle.classList.toggle('hidden')
+        this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", false)
+      }
+
+      endBattleCharacterDied() {
+        this.#gameBoard.removeCharacter(this.characterForBattle)
+        if(this.#gameBoard.areThereCharactersLeft()) {
+          this.characterForBattle = this.#gameBoard.getCharacterForFight()
+          this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", true)
+        } else {
+          this.gameOver()
+        }
+      }
+
+      endBattleMonsterDied() {
+        this.#battle.classList.add('hidden')
+        this.#dieUi.classList.toggle('hidden')
+        this.#gameBoard.removeMonster(this.monsterForBattle)
+        this.newTurn()
+      }
+
+      gameOver() {
+        this.#window.remove()
       }
    }
 
