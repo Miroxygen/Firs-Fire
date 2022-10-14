@@ -30,4 +30,12 @@ class extends HTMLElement {
             this.#info.setInfo()
         })
     }
+
+    getMonsterAttributes() {
+      return this.#info.getMonsterAttributes()
+    }
+
+    setCardAsBoss() {
+      this.#info.setBossAttributes()
+    }
 })

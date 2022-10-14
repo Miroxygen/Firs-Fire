@@ -74,8 +74,16 @@ import { RandomEvent } from "../random-event.js"
 
        setRandomEvent() {
         const newEvent = this.randomEvent.getRandomEvent()
-        console.log(newEvent)
-        this.#eventText.textContent = newEvent
+        this.ifMonsterEvent(newEvent.name)
+        this.#eventText.textContent = newEvent.description
+       }
+
+       ifMonsterEvent(eventName) {
+        if(eventName === "Monster") {
+          this.dispatchEvent(new CustomEvent('monsterFight', {
+            bubbles: true
+          }))
+        }
        }
 
        clearEventText() {

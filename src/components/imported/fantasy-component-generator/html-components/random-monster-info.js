@@ -122,6 +122,7 @@ class extends HTMLElement {
         this.#tableHolder = this.shadowRoot.querySelector('#tableHolder')
 
         this.monster = monsterGenerator.getRandomMonster()
+        this.monsterAttributes = getArrayFromString(this.monster.Traits, ",")
     }
 
     setInfo() {
@@ -144,9 +145,18 @@ class extends HTMLElement {
     }
 
     setAttributes() {
-      const monsterAttributes = getArrayFromString(this.monster.Traits, ",")
       for(let iterator = 0; iterator < this.#tableHolder.children.length; iterator++) {
-        this.#tableHolder.children[iterator].textContent = monsterAttributes[iterator]
+        this.#tableHolder.children[iterator].textContent = this.monsterAttributes[iterator]
       }
+    }
+
+    setBossAttributes() {
+      for(let iterator = 0; iterator < this.monsterAttributes.length; iterator++) {
+        this.monsterAttributes[iterator] = this.monsterAttributes[iterator] * 5
+      }
+    }
+
+    getAttributes() {
+      return this.monsterAttributes
     }
 })

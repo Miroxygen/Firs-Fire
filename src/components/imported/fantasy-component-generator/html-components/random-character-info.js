@@ -112,7 +112,9 @@ class extends HTMLElement {
         this.#raceHolder = this.shadowRoot.querySelector('#raceHolder')
         this.#attributesHolder = this.shadowRoot.querySelector('#attributesHolder')
         this.#tableHolder = this.shadowRoot.querySelector('#tableHolder')
+
         this.character = characterGenerator.getCharacter()
+        this.characterAttributes = getArrayFromString(this.character.Traits, ",")
     }
 
     setNewInfo() {
@@ -135,9 +137,12 @@ class extends HTMLElement {
     }
 
     setAttributes() {
-      const characterAttributes = getArrayFromString(this.character.Traits, ",")
       for(let iterator = 0; iterator < this.#tableHolder.children.length; iterator++) {
-        this.#tableHolder.children[iterator].textContent = characterAttributes[iterator]
+        this.#tableHolder.children[iterator].textContent = this.characterAttributes[iterator]
       }
+    }
+
+    getAttributes() {
+      return this.characterAttributes
     }
 })

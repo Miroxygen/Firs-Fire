@@ -38,4 +38,8 @@ class extends HTMLElement {
             this.#info.setNewInfo()
         })
     }
+
+    getCharacterAttributes() {
+      return this.#info.getCharacterAttributes()
+    }
 })

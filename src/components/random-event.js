@@ -2,7 +2,6 @@
 
 export class RandomEvent {
   constructor() {
-    this.events = [this.monsterEvent, this.beggarEvent, this.innEvent, this.madmanEvent]
 
     this.monsterEvent = {
       name : "Monster",
@@ -23,10 +22,12 @@ export class RandomEvent {
       name : "Madman",
       description : "You find a soaked and dirty old man praying to a dead tree. He whispers 'The milk is in the hare!' You quickly walk away."
     }
+
+    this.events = [this.madmanEvent, this.monsterEvent, this.innEvent, this.beggarEvent]
   }
 
   getRandomEvent() {
-    const randomEvent = this.events[3]
-    return "hej"
+    const randomEvent = this.events[Math.floor(Math.random() * 4)]
+    return randomEvent
   }
 }

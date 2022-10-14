@@ -16,7 +16,7 @@
   position:absolute;
  }
  #mapHolder {
-  margin-left:500px;
+  margin-left:550px;
   margin-top:50px;
   position:absolute;
  }
@@ -30,7 +30,7 @@
  #monsterHolder {
   height:800px;
   width:500px;
-  margin-left:900px;
+  margin-left:1050px;
   position:absolute;
  }
 
@@ -78,6 +78,7 @@
          this.#monsterHolder = this.shadowRoot.querySelector('#monsterHolder')
 
          this.contentGenerator = new FantasyContentGenerator()
+         this.bossMonster = ""
 
          this.#gameBoard.addEventListener('click', () => {
           this.decideMap()
@@ -96,6 +97,8 @@
         this.addMap()
         this.addCharacters(numberOfCharacters)
         this.addMonsters()
+        this.decideOnBoss()
+        console.log(this.bossMonster)
       }
 
       decideMap() {
@@ -122,10 +125,18 @@
       }
 
       addMonsters() {
+        let margin = 20
         for(let iterator = 0; iterator < 4; iterator++) {
           const newCardHolder = this.addAndReturnHolder(this.#monsterHolder)
+          newCardHolder.style.marginTop = `${margin}px`
           this.contentGenerator.connectMonsterCard(newCardHolder)
+          margin = margin + 200
         }
+      }
+
+      decideOnBoss() {
+        this.bossMonster = this.#monsterHolder.children[Math.floor(Math.random() * 4)].children[0]
+        this.bossMonster.setCardAsBoss()
       }
 
       addAndReturnHolder(HTMLElement) {
