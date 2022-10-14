@@ -71,6 +71,16 @@
       } else {
         this.currentPosition.top += dieValue * 20
       }
+      this.outOfBounds(this.currentPosition.top, this.currentPosition.left)
+     }
+
+     outOfBounds(top, left) {
+      if(top >= 400) {
+        top = 400
+      }
+      if(left >= 400) {
+        left = 400
+      }
      }
      
    })

@@ -27,8 +27,13 @@
   position:absolute;
  }
 
+ h1{
+  text-align:center;
+  margin-bottom:0;
+ }
+
  random-character-card {
-  margin:50px;
+  position:absolute;
  }
 
  #currentMonster {
@@ -61,10 +66,16 @@
       <slot></slot>
       <button id="mapConfirmation" class="hidden">I want this map!</button>
     </div>
-    <div id="charHolder"></div>
+    <div id="charHolder">
+    <h1>Characters</h1>
+    </div>
     <div id="monsterHolder" class="hidden"></div>
-    <div id="currentMonster"></div>
-    <div id="bossHolder" class="hidden"></div>
+    <div id="currentMonster">
+      <h1>Monster</h1>
+    </div>
+    <div id="bossHolder" class="hidden">
+      <h1>Boss</h1>
+    </div>
   </div>
  `
  
@@ -132,7 +143,16 @@
        addCharacters(numberOfCharacters) {
         for(let iterator = 0; iterator < numberOfCharacters; iterator++) {
           this.contentGenerator.connectCharacterCard(this.#charHolder)
+          this.setCharacterCardStyle()
         }  
+      }
+
+      setCharacterCardStyle() {
+        let margin = 20
+        for(let index = 0; index < this.#charHolder.children.length; index++) {
+          this.#charHolder.children[index].style.top = `${margin}px`
+          margin = margin + 120
+        }
       }
 
       addMonsters() {
@@ -143,7 +163,6 @@
 
       decideOnBoss() {
         this.bossMonster = this.#monsterHolder.children[Math.floor(Math.random() * 4)]
-        this.bossMonster.setCardAsBoss()
         this.#bossHolder.appendChild(this.bossMonster)
         this.bossMonster.dataset.boss = true
       }
@@ -156,9 +175,9 @@
       }
 
       getMonsterForFight() {
-        let randomMonster = this.#monsterHolder.children[Math.floor(Math.random() * 3)]
-        this.#currentMonster.appendChild(randomMonster)
-        return randomMonster
+        let monster = this.#monsterHolder.children[0]
+        this.#currentMonster.appendChild(monster)
+        return monster
       }
 
       getCharacterForFight() {
@@ -180,6 +199,15 @@
 
       removeMonster(monster) {
         monster.remove()
+      }
+
+      getNumberOfMonsters() {
+        return this.#monsterHolder.children.length
+      }
+
+      getBoss() {
+        this.#bossHolder.classList.remove('hidden')
+        return this.#bossHolder.children[0]
       }
 
      })

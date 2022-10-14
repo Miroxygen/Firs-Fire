@@ -143,14 +143,27 @@ import './game-battle.js'
       }
 
       getEvent() {
-        this.#eventHandler.setRandomEvent()
+        this.#eventHandler.setRandomEvent(this.isBossReady())
         this.#eventHandler.showEventButton()
+      }
+
+      isBossReady() {
+        if(this.#gameBoard.getNumberOfMonsters() === 0) {
+          return true
+        } else {
+          return false
+        }
       }
 
       doBattle() {
         this.#eventHandler.hideEventButton()
         this.#dieUi.classList.toggle('hidden')
-        this.monsterForBattle = this.#gameBoard.getMonsterForFight()
+        if(this.isBossReady()) {
+          this.#battle.bossBattle()
+          this.monsterForBattle = this.#gameBoard.getBoss()
+        } else {
+          this.monsterForBattle = this.#gameBoard.getMonsterForFight()
+        }
         this.characterForBattle = this.#gameBoard.getCharacterForFight()
         this.#battle.classList.toggle('hidden')
         this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", false)
@@ -167,14 +180,22 @@ import './game-battle.js'
       }
 
       endBattleMonsterDied() {
-        this.#battle.classList.add('hidden')
-        this.#dieUi.classList.toggle('hidden')
-        this.#gameBoard.removeMonster(this.monsterForBattle)
-        this.newTurn()
+        if(this.isBossReady) {
+          this.gameWon()
+        } else {
+          this.#battle.classList.add('hidden')
+          this.#dieUi.classList.toggle('hidden')
+          this.#gameBoard.removeMonster(this.monsterForBattle)
+          this.newTurn()
+        }
       }
 
       gameOver() {
         this.#window.remove()
+      }
+
+      gameWon() {
+
       }
    }
 

@@ -150,12 +150,6 @@ class extends HTMLElement {
       }
     }
 
-    setBossAttributes() {
-      for(let iterator = 0; iterator < this.monsterAttributes.length; iterator++) {
-        this.monsterAttributes[iterator] = this.monsterAttributes[iterator] * 5
-      }
-    }
-
     getAttributes() {
       return this.monsterAttributes
     }

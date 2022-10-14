@@ -177,7 +177,6 @@ import './health-bar.js'
 
      enforceOutcome() {
       if(this.outcome.name === "Strike" || this.outcome.name === "Legendary") {
-        console.log(this.defender)
         if(this.defender === this.monsterAttributes) {
           this.#monsterHealthbar.removeHealth(Math.floor(this.outcome.amount))
         } else if(this.defender === this.characterAttributes) {
@@ -211,6 +210,10 @@ import './health-bar.js'
         }))
      }
      this.#closeWindow.classList.add('hidden')
+     }
+
+     bossBattle() {
+      this.#header.textContent = "BOSSBATTLE!"
      }
 
      setMonsterAttributes(attributes) {

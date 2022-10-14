@@ -72,25 +72,21 @@ import { RandomEvent } from "../random-event.js"
         this.#button.classList.toggle('hidden')
        }
 
-       setRandomEvent() {
+       setRandomEvent(bossIsReady) {
         const newEvent = this.randomEvent.getRandomEvent()
-        this.ifMonsterEvent(newEvent.name)
         this.#eventText.textContent = newEvent.description
+        this.ifMonsterEvent(newEvent.name, bossIsReady)
        }
 
-       ifMonsterEvent(eventName, bossTime) {
+       ifMonsterEvent(eventName, bossIsReady) {
         if(eventName === "Monster") {
-          if(bossTime) {
+          if(bossIsReady) {
             const bossEvent = this.randomEvent.getBossEvent()
             this.#eventText.textContent = bossEvent.description
-            this.dispatchEvent(new CustomEvent('bossFight', {
-              bubbles: true
-            }))
-          } else {
+          } 
             this.dispatchEvent(new CustomEvent('monsterFight', {
               bubbles: true
             }))
-          }
         }
        }
 
