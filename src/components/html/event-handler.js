@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 
+import { RandomEvent } from "../random-event.js"
 
  const template = document.createElement('template')
  template.innerHTML = `
@@ -52,6 +53,8 @@
         this.#button = this.shadowRoot.querySelector('#button')
         this.#eventText = this.shadowRoot.querySelector('#eventText')
 
+        this.randomEvent = new RandomEvent()
+
         this.#button.addEventListener('click', () => {
           this.hideEventButton()
           this.clearEventText()
@@ -70,8 +73,9 @@
        }
 
        setRandomEvent() {
-        const text = "Nothing happened this time."
-        this.#eventText.textContent = text
+        const newEvent = this.randomEvent.getRandomEvent()
+        console.log(newEvent)
+        this.#eventText.textContent = newEvent
        }
 
        clearEventText() {
