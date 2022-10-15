@@ -67,20 +67,29 @@
 
      getRandomDirection(dieValue) {
       if(dieValue < 4) {
-        this.currentPosition.left += dieValue * 20
+        this.currentPosition.top -= dieValue * 20
+        this.currentPosition.left -= dieValue * 20
       } else {
-        this.currentPosition.top += dieValue * 20
+        this.currentPosition.top += dieValue * 10
+        this.currentPosition.left += dieValue * 10
       }
-      this.outOfBounds(this.currentPosition.top, this.currentPosition.left)
+        this.outOfBoundsLeft()
+        this.outOfBoundsTop()
      }
 
-     outOfBounds(top, left) {
-      if(top >= 400) {
-        top = 400
-      }
-      if(left >= 400) {
-        left = 400
+     outOfBoundsTop() {
+      if(this.currentPosition.top > 450) {
+        this.currentPosition.top = 450
+      } else if(this.currentPosition.top < 0) {
+        this.currentPosition.top = 0
       }
      }
-     
+
+     outOfBoundsLeft() {
+      if(this.currentPosition.left > 450) {
+        this.currentPosition.left = 450
+      }else if(this.currentPosition.left < 0) {
+        this.currentPosition.left = 0
+      }
+     }
    })

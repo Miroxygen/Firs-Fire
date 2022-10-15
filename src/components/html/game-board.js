@@ -50,7 +50,7 @@
   height:800px;
   width:500px;
   margin-left:1050px;
-  margin-top:40px;
+  margin-top:60px;
   position:absolute;
  }
 
@@ -58,6 +58,7 @@
   height:800px;
   width:500px;
   margin-left:1050px;
+  margin-top:60px;
   position:absolute;
  }
 
@@ -149,15 +150,15 @@
        addCharacters(numberOfCharacters) {
         for(let iterator = 0; iterator < numberOfCharacters; iterator++) {
           this.contentGenerator.connectCharacterCard(this.#charHolder)
-          this.setCharacterCardStyle()
+          this.setCharacterCardMargin()
         }  
       }
 
-      setCharacterCardStyle() {
+      setCharacterCardMargin() {
         let margin = 20
         for(let index = 0; index < this.#charHolder.children.length; index++) {
-          this.#charHolder.children[index].style.top = `${margin}px`
-          margin = margin + 120
+          this.#charHolder.children[index].style.marginTop = `${margin}px`
+          margin = margin + 180
         }
       }
 
@@ -182,25 +183,38 @@
 
       getMonsterForFight() {
         let monster = this.#monsterHolder.children[0]
+        monster.openCard()
         this.#currentMonster.appendChild(monster)
         return monster
       }
 
       getCharacterForFight() {
         const chosenCharacter = this.#charHolder.children[0]
+        chosenCharacter.openCard()
         return chosenCharacter
       }
 
-      areThereCharactersLeft() {
-        if(this.#charHolder.children.length !== 0) {
-          return true
-        } else {
-          return false
-        }
+      getNumberOfCharacters() {
+        return this.#charHolder.children.length 
       }
 
       removeCharacter(character) {
         character.remove()
+        this.removeCharacterCardMargin()
+      }
+
+      /**
+       * Since the cards have to have position absolute,
+       * here the margin is removed by 200 for each card so 
+       * that they all get bumped up when one is removed.
+       */
+      removeCharacterCardMargin() {
+        if(this.getNumberOfCharacters() !== 0) {
+          for(let index = 0; index < this.#charHolder.children.length; index++) {
+            const currentMargin = parseInt(this.#charHolder.children[index].style.marginTop.replace(/\D/g, ""))
+            this.#charHolder.children[index].style.marginTop = `${currentMargin - 200}px`
+          }
+        }
       }
 
       removeMonster(monster) {

@@ -113,7 +113,8 @@ import './game-instructions.js'
        })
 
        this.#window.addEventListener('monsterFight', () => {
-        this.doBattle()
+        
+        //this.doBattle()
        })
 
        this.#window.addEventListener('monsterDied', () => {
@@ -176,7 +177,7 @@ import './game-instructions.js'
 
       endBattleCharacterDied() {
         this.#gameBoard.removeCharacter(this.characterForBattle)
-        if(this.#gameBoard.areThereCharactersLeft()) {
+        if(this.#gameBoard.getNumberOfCharacters() !== 0) {
           this.characterForBattle = this.#gameBoard.getCharacterForFight()
           this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", true)
         } else {

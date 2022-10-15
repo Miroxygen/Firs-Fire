@@ -26,12 +26,18 @@ class extends HTMLElement {
         this.#info = this.shadowRoot.querySelector('#info')
 
         this.#card.addEventListener('click', () => {
-            this.#card.setMonsterStyle()
-            this.#info.setInfo()
+          this.#card.setMonsterStyle()
+          this.#info.setInfo()
         })
     }
 
     getMonsterAttributes() {
       return this.#info.getAttributes()
+    }
+
+    openCard() {
+      this.#card.setMonsterStyle()
+      this.#card.openCard()
+      this.#info.setInfo()
     }
 })

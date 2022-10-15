@@ -34,12 +34,18 @@ class extends HTMLElement {
         this.#card = this.shadowRoot.querySelector('#card')
         this.#info = this.shadowRoot.querySelector('#info')
         this.#card.addEventListener('click', () => {
-            this.#card.setCharacterStyle()
-            this.#info.setNewInfo()
+          this.#card.setCharacterStyle()
+          this.#info.setNewInfo()
         })
     }
 
     getCharacterAttributes() {
       return this.#info.getAttributes()
+    }
+
+    openCard() {
+      this.#card.setCharacterStyle()
+      this.#card.openCard()
+      this.#info.setNewInfo()
     }
 })

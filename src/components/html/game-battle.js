@@ -54,8 +54,8 @@ import './health-bar.js'
  </style>
  <div id="holder">
     <p id="header">BATTLE!</p>
-    <button id="strike">hej</button>
-    <p id="battleText">hej</p>
+    <button id="strike"></button>
+    <p id="battleText"></p>
     <button id="closeWindow" class="hidden">End battle.</button>
   </div>
   <health-bar id="monsterHealthbar">
@@ -123,7 +123,7 @@ import './health-bar.js'
       if(rerun) {
         this.#battleText.textContent = ""
         this.#monsterHealthbar.calculateHealth(this.savedMonsterHealthForRerun / 10)
-      }
+      } 
       this.setTurn()
      }
 
@@ -190,10 +190,8 @@ import './health-bar.js'
       this.#strike.classList.add('hidden')
       if(this.#monsterHealthbar.getHealth() === 0) {
         this.#battleText.textContent = "Monster has died! You won this time."
-        this.#monsterHealthbar.resetHealthVisbly()
       } else {
         this.#battleText.textContent = "You diead! Better luck next time."
-        this.#characterHealthbar.resetHealthVisibly()
         this.savedMonsterHealthForRerun = this.#monsterHealthbar.getHealth()
       }    
       this.#closeWindow.classList.remove('hidden')
@@ -211,6 +209,7 @@ import './health-bar.js'
           bubbles: true
         }))
      }
+     this.#battleText.textContent = ""
      this.#closeWindow.classList.add('hidden')
      }
 

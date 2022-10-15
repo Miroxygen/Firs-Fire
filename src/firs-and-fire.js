@@ -1,13 +1,14 @@
+import './components/html/game-window.js'
 
-
-class FirsAndFire {
+export class FirsAndFire {
   constructor() {
 
   }
 
-  startGame(startButton, gameWindow) {
+  startGame(startButton, attachment) {
     startButton.addEventListener('click', () =>{
-      
+      const gameWindow = document.createElement('game-window')
+      attachment.append(gameWindow)
     })
   }
 }

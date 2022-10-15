@@ -13,7 +13,7 @@
  #healthBar {
   height:30px;
   width:150px;
-  background: linear-gradient(270deg, rgba(204,76,76,1) 100%, rgba(134,14,28,1) 100%);
+  background: linear-gradient(93deg, rgba(134,14,28,1) 100%, rgba(246,239,239,1) 100%);
   border:solid white 3px;
   border-radius:20%
  }
@@ -59,6 +59,7 @@
       this.currentHealth = this.currentHealth - strike
       if(this.currentHealth < 0) {
         this.currentHealth = 0
+        this.resetHealthVisible()
       } 
       this.#healthNumber.textContent = this.currentHealth
       this.removeHealthVisible()
@@ -69,8 +70,8 @@
       this.#healthBar.style.background = `linear-gradient(93deg, rgba(134,14,28,1) ${percentage}%, rgba(246,239,239,1) 100%)`
      }
 
-     resetHealthVisble() {
-      this.#healthBar.style.background = `linear-gradient(270deg, rgba(204,76,76,1) 100%, rgba(134,14,28,1) 100%)`
+     resetHealthVisible() {
+      this.#healthBar.style.background = `linear-gradient(93deg, rgba(134,14,28,1) 100%, rgba(246,239,239,1) 100%)`
      }
 
      getHealth() {
