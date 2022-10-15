@@ -7,6 +7,10 @@
  const template = document.createElement('template')
  template.innerHTML = `
  <style>
+  label {
+    font-size:30px;
+    padding:20px;
+  }
  </style>
  <label for"characterAmount">How many characters do you want in the game?</label>
  <select name="characterAmount" id="characterAmount">

@@ -10,7 +10,9 @@
  const template = document.createElement('template')
  template.innerHTML = `
  <style>
- 
+  #parameters {
+    margin-left:300px;
+  }
  </style>
  <div id="beforeStart">
     <select-game-parameters id="parameters">

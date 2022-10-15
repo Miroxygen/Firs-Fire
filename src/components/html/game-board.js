@@ -25,11 +25,21 @@
   height:800px;
   width:500px;
   position:absolute;
+  margin-top:60px;
  }
 
+
  h1{
-  text-align:center;
-  margin-bottom:0;
+  position:absolute;
+  margin-bottom: 0;
+ }
+
+ #monsterText {
+  margin-left:1300px;
+ }
+
+ #charText {
+  margin-left:200px;
  }
 
  random-character-card {
@@ -66,16 +76,12 @@
       <slot></slot>
       <button id="mapConfirmation" class="hidden">I want this map!</button>
     </div>
-    <div id="charHolder">
-    <h1>Characters</h1>
-    </div>
+    <h1 id="charText">Characters</h1>
+    <div id="charHolder"></div>
     <div id="monsterHolder" class="hidden"></div>
-    <div id="currentMonster">
-      <h1>Monster</h1>
-    </div>
-    <div id="bossHolder" class="hidden">
-      <h1>Boss</h1>
-    </div>
+    <h1 id="monsterText">Monster</h1>
+    <div id="currentMonster"></div>
+    <div id="bossHolder" class="hidden"></div>
   </div>
  `
  
@@ -202,7 +208,7 @@
       }
 
       getNumberOfMonsters() {
-        return this.#monsterHolder.children.length
+        return this.#monsterHolder.children.length + this.#currentMonster.children.length
       }
 
       getBoss() {

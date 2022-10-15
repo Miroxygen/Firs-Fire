@@ -12,6 +12,8 @@ import './die-ui.js'
 import './game-piece.js'
 import './event-handler.js'
 import './game-battle.js'
+import './end-screen.js'
+import './game-instructions.js'
 
  const template = document.createElement('template')
  template.innerHTML = `
@@ -41,8 +43,9 @@ import './game-battle.js'
   display:none;
  }
  </style>
-
+ <end-screen id="endScreen" class="hidden"></end-screen>
  <div id="window">
+    <game-instructions></game-instructions>
     <game-battle id="battle" class="hidden"></game-battle>
     <event-handler id="eventHandler" class="hidden"></event-handler>
     <game-board id="gameBoard" class="hidden">
@@ -71,6 +74,7 @@ import './game-battle.js'
      #mapConfirmation
      #eventHandler
      #battle
+     #endScreen
 
      constructor () {
        super()
@@ -86,6 +90,7 @@ import './game-battle.js'
        this.#piece = this.shadowRoot.querySelector('#piece')
        this.#eventHandler = this.shadowRoot.querySelector('#eventHandler')
        this.#battle = this.shadowRoot.querySelector('#battle')
+       this.#endScreen = this.shadowRoot.querySelector('#endScreen')
 
        this.characterForBattle = undefined
        this.monsterForBattle = undefined
@@ -175,13 +180,13 @@ import './game-battle.js'
           this.characterForBattle = this.#gameBoard.getCharacterForFight()
           this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", true)
         } else {
-          this.gameOver()
+          this.gameEnded(false)
         }
       }
 
       endBattleMonsterDied() {
-        if(this.isBossReady) {
-          this.gameWon()
+        if(this.isBossReady()) {
+          this.gameEnded(true)
         } else {
           this.#battle.classList.add('hidden')
           this.#dieUi.classList.toggle('hidden')
@@ -190,12 +195,14 @@ import './game-battle.js'
         }
       }
 
-      gameOver() {
+      gameEnded(win) {
         this.#window.remove()
-      }
-
-      gameWon() {
-
+        this.#endScreen.classList.remove('hidden')
+        if(win) {
+          this.#endScreen.displayWin()
+        } else {
+          this.#endScreen.displayLoss()
+        }
       }
    }
 

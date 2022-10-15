@@ -190,8 +190,10 @@ import './health-bar.js'
       this.#strike.classList.add('hidden')
       if(this.#monsterHealthbar.getHealth() === 0) {
         this.#battleText.textContent = "Monster has died! You won this time."
+        this.#monsterHealthbar.resetHealthVisbly()
       } else {
         this.#battleText.textContent = "You diead! Better luck next time."
+        this.#characterHealthbar.resetHealthVisibly()
         this.savedMonsterHealthForRerun = this.#monsterHealthbar.getHealth()
       }    
       this.#closeWindow.classList.remove('hidden')
