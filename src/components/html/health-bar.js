@@ -30,13 +30,14 @@
  
  customElements.define('health-bar',
  /**
-  * Handles the battle.
+  * Healthbar.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
     
      #healthBar
      #healthNumber
+     
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
@@ -65,11 +66,17 @@
       this.removeHealthVisible()
      }
 
+     /**
+      * Makes a part of the healthbar white instead of red.
+      */
      removeHealthVisible() {
       const percentage = this.currentHealth / this.fullHealth * 100
       this.#healthBar.style.background = `linear-gradient(93deg, rgba(134,14,28,1) ${percentage}%, rgba(246,239,239,1) 100%)`
      }
 
+     /**
+      * Goes back to full red.
+      */
      resetHealthVisible() {
       this.#healthBar.style.background = `linear-gradient(93deg, rgba(134,14,28,1) 100%, rgba(246,239,239,1) 100%)`
      }

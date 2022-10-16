@@ -23,19 +23,20 @@ import { RandomEvent } from "../random-event.js"
   margin-top:78px;
   margin-left:125px;
  }
+
  .hidden {
   display:none;
  }
  </style>
  <div id="eventWindow">
     <p id="eventText"></p>
-    <button id="button" class="hidden">Okay, let's go!</button>
+    <button id="button" class="hidden">Okay, move on!</button>
   </div>
  `
  
  customElements.define('event-handler',
  /**
-  * The die for the game.
+  * Games event-handler..
   * @type {HTMLElement}
   */
    class extends HTMLElement {
@@ -54,6 +55,7 @@ import { RandomEvent } from "../random-event.js"
         this.#eventText = this.shadowRoot.querySelector('#eventText')
 
         this.randomEvent = new RandomEvent()
+        this.event = ""
 
         this.#button.addEventListener('click', () => {
           this.hideEventButton()
@@ -64,30 +66,39 @@ import { RandomEvent } from "../random-event.js"
         })
        }
 
+       getRandomEvent() {
+        this.setRandomEvent()
+        this.setEventText()
+        this.ifMonsterEvent(this.event.name)
+       }
+
+       setRandomEvent() {
+        this.event = this.randomEvent.getRandomEvent()
+       }
+
+       setEventText() {
+        this.#eventText.textContent = this.event.description
+       }
+
+       ifMonsterEvent(eventName) {
+        if(eventName === "Monster") {
+            this.dispatchEvent(new CustomEvent('monsterFight', {
+              bubbles: true
+            }))
+        }
+       }
+
+       getBossEvent() {
+        this.event = this.randomEvent.getBossEvent()
+        this.setEventText()
+       }
+
        showEventButton() {
         this.#button.classList.toggle('hidden')
        }
 
        hideEventButton() {
         this.#button.classList.toggle('hidden')
-       }
-
-       setRandomEvent(bossIsReady) {
-        const newEvent = this.randomEvent.getRandomEvent()
-        this.#eventText.textContent = newEvent.description
-        this.ifMonsterEvent(newEvent.name, bossIsReady)
-       }
-
-       ifMonsterEvent(eventName, bossIsReady) {
-        if(eventName === "Monster") {
-          if(bossIsReady) {
-            const bossEvent = this.randomEvent.getBossEvent()
-            this.#eventText.textContent = bossEvent.description
-          } 
-            this.dispatchEvent(new CustomEvent('monsterFight', {
-              bubbles: true
-            }))
-        }
        }
 
        clearEventText() {

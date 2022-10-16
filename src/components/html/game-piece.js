@@ -37,12 +37,13 @@
  
  customElements.define('game-piece',
  /**
-  * The die for the game.
+  * The game-piece.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
     
      #piece
+
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
@@ -53,11 +54,17 @@
         left : 0,
         top: 0,
        }
+       this.moveValue = 0
      }
 
-     move(dieValue) {
-      this.getRandomDirection(dieValue)
+     move(moveValue) {
+      this.setMoveValue(moveValue)
+      this.getRandomDirection()
       this.setPosition()
+     }
+
+     setMoveValue(moveValue) {
+      this.moveValue = moveValue
      }
 
      setPosition() {
@@ -65,18 +72,35 @@
       this.#piece.style.left = `${this.currentPosition.left}px` 
      }
 
-     getRandomDirection(dieValue) {
-      if(dieValue < 4) {
-        this.currentPosition.top -= dieValue * 20
-        this.currentPosition.left -= dieValue * 20
+     getRandomDirection() {
+      if(this.moveValue < 4) {
+        this.setMinusDirection()
       } else {
-        this.currentPosition.top += dieValue * 10
-        this.currentPosition.left += dieValue * 10
+        this.setPlusDirection()
       }
         this.outOfBoundsLeft()
         this.outOfBoundsTop()
      }
 
+     /**
+      * The piece will walk upwards and right.
+      */
+     setMinusDirection() {
+      this.currentPosition.top -= this.moveValue * 20
+      this.currentPosition.left -= this.moveValue * 20
+     }
+
+     /**
+      * The piece will walk downwards and left.
+      */
+     setPlusDirection() {
+      this.currentPosition.top += this.moveValue * 10
+      this.currentPosition.left += this.moveValue * 10
+     }
+
+     /**
+      * So the piece is inside the map visually.
+      */
      outOfBoundsTop() {
       if(this.currentPosition.top > 450) {
         this.currentPosition.top = 450

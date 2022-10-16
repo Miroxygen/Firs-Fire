@@ -23,19 +23,18 @@
  
  customElements.define('select-game-parameters',
  /**
-  * The backbone of the gamingcomponent.
+  * Parameters.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
-     /**
-      * Just a coloured div.
-      * @type {HTMLElement}
-      */
+  
      #characterAmount
+
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
          .appendChild(template.content.cloneNode(true))
+         
        this.#characterAmount = this.shadowRoot.querySelector('#characterAmount')
      }
 

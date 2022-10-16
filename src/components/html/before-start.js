@@ -25,7 +25,7 @@
  
  customElements.define('before-start',
  /**
-  * The die for the game.
+  * A screen beofre game has started.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
@@ -52,6 +52,9 @@
        })
        }
 
+       /**
+        * At the moment only number of characters.
+        */
        setGameParameters() {
         this.numberOfCharacters = this.#parameters.getNumberOfCharacters()
        }

@@ -22,12 +22,12 @@
  
  customElements.define('simple-button',
  /**
-  * The backbone of the gamingcomponent.
+  * A button.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
      /**
-      * Just a coloured div.
+      * Multipurpose.
       * @type {HTMLElement}
       */
      #button
@@ -35,6 +35,7 @@
        super()
        this.attachShadow({ mode: 'open' })
          .appendChild(template.content.cloneNode(true))
+         
        this.#button = this.shadowRoot.querySelector('#window')
      }
    })

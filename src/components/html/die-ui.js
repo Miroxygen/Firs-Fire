@@ -44,12 +44,19 @@ import { Die } from "../die.js"
    class extends HTMLElement {
     
      #dieElement
+     /**
+      * A button to roll the die.
+      */
      #roll
+     /**
+      * The die's value.
+      */
      #value
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })
          .appendChild(template.content.cloneNode(true))
+
        this.#dieElement = this.shadowRoot.querySelector('#dieElement')
        this.#roll = this.shadowRoot.querySelector('#roll')
        this.#value = this.shadowRoot.querySelector('#value')
@@ -59,20 +66,26 @@ import { Die } from "../die.js"
 
        this.#roll.addEventListener('click', () => {
         this.changeFace()
-        this.#value.textContent = this.dieValue
-        this.#roll.classList.add('hidden')
         this.dispatchEvent(new CustomEvent('dieRolled', {
           bubbles: true
         }))
        })
      }
 
+     /**
+      * A face is the side the die is showing upwards,
+      * displaying its value by number of black dots.
+      */
      changeFace() {
       this.removeFaces()
       this.newDieValue()
       this.addFacesToDie()
+      this.makeRollInvisble()
      }
 
+     /**
+      * This is a reset, so the die is always blank for a new roll.
+      */
      removeFaces() {
       while (this.#dieElement.firstChild) {
         this.#dieElement.removeChild(this.#dieElement.lastChild)
@@ -83,21 +96,33 @@ import { Die } from "../die.js"
      newDieValue() {
       this.die.rollDie()
       this.dieValue = this.die.getDieValue()
-     }
-
-     addFacesToDie() {
-      for(let iteration = 0; iteration < this.dieValue; iteration++) {
-        const face = document.createElement('div')
-        face.classList.add('face')
-        this.#dieElement.append(face)
-      }
+      this.#value.textContent = this.dieValue
      }
 
      getDieValue() {
       return this.dieValue
      }
 
+     addFacesToDie() {
+      for(let iteration = 0; iteration < this.dieValue; iteration++) {
+        this.#dieElement.append(this.getDieFace())
+      }
+     }
+
+     getDieFace() {
+      const face = document.createElement('div')
+      face.classList.add('face')
+      return face
+     }
+
+     /**
+      * "Roll" is a button with the function to roll the die.
+      */
      makeRollVisible() {
       this.#roll.classList.remove('hidden')
+     }
+
+     makeRollInvisble() {
+      this.#roll.classList.add('hidden')
      }
    })

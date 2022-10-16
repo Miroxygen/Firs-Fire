@@ -36,11 +36,9 @@ export class BattleCalculator {
 
   /**
    * Determines if hit should be magical.
-   * @param {string} intelligence 
-   * @param {string} strength 
    */
   isMagicalHit(intelligence, strength) {
-    if(intelligence > strength) {
+    if(this.intelligence > this.strength) {
       return true
     }
   }

@@ -15,6 +15,7 @@
   width:1600px;
   position:absolute;
  }
+
  #mapHolder {
   margin-left:550px;
   margin-top:50px;
@@ -27,7 +28,6 @@
   position:absolute;
   margin-top:60px;
  }
-
 
  h1{
   position:absolute;
@@ -136,14 +136,7 @@
         this.decideOnBoss()
       }
 
-      decideMap() {
-        const map = this.#mapHolder.children[2]
-        if(map.hasMapBeenGenerated()) {
-          this.#mapConfirmation.classList.remove('hidden')
-        }
-      }
-
-       addMap() {
+      addMap() {
         this.contentGenerator.connectMap(this.#mapHolder)
       }
 
@@ -174,11 +167,11 @@
         this.bossMonster.dataset.boss = true
       }
 
-      addAndReturnHolder(HTMLElement) {
-        const holder = document.createElement('div')
-        holder.style.position = "absolute"
-        HTMLElement.append(holder)
-        return holder
+      decideMap() {
+        const map = this.#mapHolder.children[2]
+        if(map.hasMapBeenGenerated()) {
+          this.#mapConfirmation.classList.remove('hidden')
+        }
       }
 
       getMonsterForFight() {
@@ -227,7 +220,9 @@
 
       getBoss() {
         this.#bossHolder.classList.remove('hidden')
-        return this.#bossHolder.children[0]
+        const boss = this.#bossHolder.children[0]
+        boss.openCard()
+        return boss
       }
 
      })

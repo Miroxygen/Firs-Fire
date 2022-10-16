@@ -25,16 +25,19 @@ import './health-bar.js'
   z-index:10;
   color:red;
  }
+
  #monsterHealthbar {
   left:1070px;
   top:40px;
   position:absolute;
  }
+
  #characterHealthbar {
   left:350px;
   top:40px;
   position:absolute;
  }
+
  #strike {
   padding:10px;
  }
@@ -42,15 +45,19 @@ import './health-bar.js'
  #battleText {
   font-size:30px;
  }
+
  .hidden { 
   display: none;
  }
+
  .characterTurn {
   background: blue;
  }
+
  .monsterTurn {
   background:red;
  }
+
  </style>
  <div id="holder">
     <p id="header">BATTLE!</p>
@@ -93,18 +100,17 @@ import './health-bar.js'
         this.#strike = this.shadowRoot.querySelector('#strike')
         this.#closeWindow = this.shadowRoot.querySelector('#closeWindow')
 
-       this.battleCalculator = new BattleCalculator()
-       this.monsterAttributes = {Strength : 0, Charisma : 0, Dexterity : 0, Intelligence : 0, Wisdom : 0, Constituion : 0}
-       this.characterAttributes = {Strength : 0, Charisma : 0, Dexterity : 0, Intelligence : 0, Wisdom : 0, Constituion : 0}
-       this.attacker = undefined
-       this.defender = undefined
-       this.outcome = undefined
-       this.whosOnTurn = ""
-       this.battleIsOngoing = true
-       this.savedMonsterHealthForRerun = 0
+        this.battleCalculator = new BattleCalculator()
+        this.monsterAttributes = {Strength : 0, Charisma : 0, Dexterity : 0, Intelligence : 0, Wisdom : 0, Constituion : 0}
+        this.characterAttributes = {Strength : 0, Charisma : 0, Dexterity : 0, Intelligence : 0, Wisdom : 0, Constituion : 0}
+        this.attacker = {health : "", stats: ""}
+        this.defender = {health : "" , stats : ""}
+        this.outcome = undefined
+        this.whosOnTurn = "character"
+        this.savedMonsterHealthForRerun = 0
 
-       this.#strike.addEventListener('click', () => {
-        this.doBattle()
+        this.#strike.addEventListener('click', () => {
+        this.doOneAttack()
        })
 
        this.#closeWindow.addEventListener('click', () => {
@@ -112,63 +118,105 @@ import './health-bar.js'
        })
      }
 
-     startBattle(monster, character, turn, rerun) {
-      this.battleIsOngoing = true
-      this.whosOnTurn = turn
+     startBattle(monster, character) {
       this.setMonsterAttributes(monster)
+      this.setMonsterHealthBar()
       this.setCharacterAttributes(character)
+      this.setCharacterHealthBar()
+      this.showStrikeButton()
+      this.setTurn()
+     }
+
+     setMonsterAttributes(attributes) {
+      this.putAttributeNumbersIntoObject(attributes, this.monsterAttributes)
+     }
+
+     setMonsterHealthBar() {
       this.#monsterHealthbar.calculateHealth(this.monsterAttributes.Constituion)
+     }
+
+     setCharacterAttributes(attributes) {
+      this.putAttributeNumbersIntoObject(attributes, this.characterAttributes)
+     }
+
+     setCharacterHealthBar() {
       this.#characterHealthbar.calculateHealth(this.characterAttributes.Constituion)
-      this.#strike.classList.remove('hidden')
-      if(rerun) {
-        this.#battleText.textContent = ""
-        this.#monsterHealthbar.calculateHealth(this.savedMonsterHealthForRerun / 10)
-      } 
-      this.setTurn()
-     }
-
-     doBattle() {
-      if(this.battleIsOngoing) {
-        this.strike()
-        this.displayOutCome()
-        this.enforceOutcome()
-      }
-      if(this.#characterHealthbar.getHealth() === 0 || this.#monsterHealthbar.getHealth() === 0) {
-        this.endBattle()
-      }
-     }
-
-     strike() {
-      this.setTurn()
-      this.battleCalculator.setStats(this.attacker.Strength, this.attacker.Intelligence,
-         this.defender.Wisdom, this.defender.Charisma, this.defender.Dexterity)
-      this.outcome = this.battleCalculator.determineBattleOutcome()
      }
 
      setTurn() {
       if(this.whosOnTurn === "character") {
         this.characterTurn()
+        this.whosOnTurn = "monster"
       } else {
         this.monsterTurn()
+        this.whosOnTurn = "character"
       }
      }
 
      characterTurn() {
+      this.setCharacterStyle()
+      this.setMonsterAsAttacker()
+      this.setCharacterAsDefender()
+     }
+
+     setCharacterAsAttacker() {
+      this.attacker.health = this.#characterHealthbar
+      this.attacker.stats = this.characterAttributes
+     }
+
+     setCharacterAsDefender() {
+      this.defender.health = this.#characterHealthbar
+      this.defender.stats = this.characterAttributes
+     }
+
+     setCharacterStyle() {
       this.#strike.textContent = "CHARACTER TURN"
       this.#strike.classList.add('characterTurn')
       this.#strike.classList.remove('monsterTurn')
-      this.attacker = this.monsterAttributes
-      this.defender = this.characterAttributes
-      this.whosOnTurn = "monster"
      }
 
      monsterTurn() {
+      this.setMonsterStyle()
+      this.setCharacterAsAttacker()
+      this.setMonsterAsDefender()
+     }
+
+     setMonsterAsAttacker() {
+      this.attacker.health = this.#monsterHealthbar
+      this.attacker.stats = this.monsterAttributes
+     }
+
+     setMonsterAsDefender() {
+      this.defender.health = this.#monsterHealthbar
+      this.defender.stats = this.monsterAttributes
+     }
+
+     setMonsterStyle() {
       this.#strike.textContent = "MONSTER TURN"
       this.#strike.classList.add('monsterTurn')
       this.#strike.classList.remove('characterTurn')
-      this.attacker = this.characterAttributes
-      this.defender = this.monsterAttributes
-      this.whosOnTurn = "character"
+     }
+
+     showStrikeButton() {
+      this.#strike.classList.remove('hidden')
+     }
+
+     doOneAttack() {
+      this.strike()
+      this.getOutcome()
+      this.displayOutCome()
+      this.enforceOutcome()
+      this.didAnyoneDie()
+     }
+
+     strike() {
+      this.setTurn()
+      this.battleCalculator.setStats(this.attacker.stats.Strength, this.attacker.stats.Intelligence,
+         this.defender.stats.Wisdom, this.defender.stats.Charisma, this.defender.stats.Dexterity)
+     }
+
+     getOutcome() {
+      this.outcome = this.battleCalculator.determineBattleOutcome()
      }
 
      displayOutCome() {
@@ -177,56 +225,98 @@ import './health-bar.js'
 
      enforceOutcome() {
       if(this.outcome.name === "Strike" || this.outcome.name === "Legendary") {
-        if(this.defender === this.monsterAttributes) {
-          this.#monsterHealthbar.removeHealth(Math.floor(this.outcome.amount))
-        } else if(this.defender === this.characterAttributes) {
-          this.#characterHealthbar.removeHealth(Math.ceil(this.outcome.amount))
-        }
+        this.defender.health.removeHealth(Math.ceil(this.outcome.amount))
+      }
+     }
+
+     didAnyoneDie() {
+      if(this.#characterHealthbar.getHealth() === 0 || this.#monsterHealthbar.getHealth() === 0) {
+        this.endBattle()
       }
      }
 
      endBattle() {
-      this.battleIsOngoing = false
-      this.#strike.classList.add('hidden')
       if(this.#monsterHealthbar.getHealth() === 0) {
-        this.#battleText.textContent = "Monster has died! You won this time."
+        this.monsterDiedText()
+        this.resetMonsterHealth()
       } else {
-        this.#battleText.textContent = "You diead! Better luck next time."
-        this.savedMonsterHealthForRerun = this.#monsterHealthbar.getHealth()
+        this.characterDiedText()
       }    
+      this.resetCharacterHealth()
+      this.hideBattleWindow()
+     }
+
+     monsterDiedText() {
+      this.#battleText.textContent = "Monster has died! You won this time."
+     }
+
+     resetMonsterHealth() {
+      this.#monsterHealthbar.resetHealthVisible()
+     }
+
+     characterDiedText() {
+      this.#battleText.textContent = "You diead! Better luck next time."
+     }
+
+     resetCharacterHealth() {
+      this.#characterHealthbar.resetHealthVisible()
+     }
+
+     hideBattleWindow() {
+      this.#strike.classList.add('hidden')
       this.#closeWindow.classList.remove('hidden')
      }
 
+     continueBattle(character) {
+      this.setCharacterAttributes(character)
+      this.setCharacterHealthBar()
+      this.whosOnTurn = "character"
+      this.setTurn()
+      this.showStrikeButton()
+     }
+
+     
+
      closeWindow() {
       if(this.#monsterHealthbar.getHealth() === 0) {
-        this.#battleText.textContent = "Monster has died! You won this time."
-        this.dispatchEvent(new CustomEvent('monsterDied', {
-          bubbles: true
-        }))
+        this.monsterDiedDispatchEvent()
       } else {
-        this.#battleText.textContent = "You diead! Better luck next time."
-        this.dispatchEvent(new CustomEvent('characterDied', {
-          bubbles: true
-        }))
+       this.characterDiedDispatchEvent()
      }
-     this.#battleText.textContent = ""
-     this.#closeWindow.classList.add('hidden')
+     this.resetBattleText()
+     this.hideCloseWindowButton()
+     }
+
+     monsterDiedDispatchEvent() {
+      this.dispatchEvent(new CustomEvent('monsterDied', {
+        bubbles: true
+      }))
+     }
+
+     characterDiedDispatchEvent() {
+      this.dispatchEvent(new CustomEvent('characterDied', {
+        bubbles: true
+      }))
+     }
+
+     resetBattleText() {
+      this.#battleText.textContent = ""
+     }
+
+     hideCloseWindowButton() {
+      this.#closeWindow.classList.add('hidden')
      }
 
      bossBattle() {
       this.#header.textContent = "BOSSBATTLE!"
      }
 
-     setMonsterAttributes(attributes) {
-      this.putAttributeNumbersIntoObject(attributes, this.monsterAttributes)
-     }
-
-     setCharacterAttributes(attributes) {
-      this.putAttributeNumbersIntoObject(attributes, this.characterAttributes)
-     }
 
      /**
       * The regex finds numbers in strings.
+      * The purpose of this function is to find numbers
+      * in arrays with strings, extract them and turn them 
+      * into the type number.
       * @param {Array} attributesArray Array with string attributes.
       * @param {object} object Monster or character.
       */

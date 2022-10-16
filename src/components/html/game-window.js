@@ -113,8 +113,7 @@ import './game-instructions.js'
        })
 
        this.#window.addEventListener('monsterFight', () => {
-        
-        //this.doBattle()
+        this.doBattle()
        })
 
        this.#window.addEventListener('monsterDied', () => {
@@ -149,8 +148,28 @@ import './game-instructions.js'
       }
 
       getEvent() {
-        this.#eventHandler.setRandomEvent(this.isBossReady())
+        this.#eventHandler.getRandomEvent()
         this.#eventHandler.showEventButton()
+      }
+
+      doBattle() {
+        this.pauseDieAndEvent()
+        if(this.isBossReady()) {
+          this.getBoss()
+          this.getBossEvent()
+        } else {
+          this.getRegularMonster()
+        }
+        this.getCharacter()
+        this.startBattle()
+      }
+
+      /**
+       * Hides the die and eventhandler during battle.
+       */
+       pauseDieAndEvent() {
+        this.#eventHandler.hideEventButton()
+        this.#dieUi.classList.toggle('hidden')
       }
 
       isBossReady() {
@@ -161,49 +180,84 @@ import './game-instructions.js'
         }
       }
 
-      doBattle() {
-        this.#eventHandler.hideEventButton()
-        this.#dieUi.classList.toggle('hidden')
-        if(this.isBossReady()) {
-          this.#battle.bossBattle()
-          this.monsterForBattle = this.#gameBoard.getBoss()
-        } else {
-          this.monsterForBattle = this.#gameBoard.getMonsterForFight()
-        }
+      getBoss() {
+        this.#battle.bossBattle()
+        this.monsterForBattle = this.#gameBoard.getBoss()
+      }
+
+      getBossEvent() {
+        this.#eventHandler.getBossEvent()
+      }
+
+      getRegularMonster() {
+        this.monsterForBattle = this.#gameBoard.getMonsterForFight()
+      }
+
+      getCharacter() {
         this.characterForBattle = this.#gameBoard.getCharacterForFight()
+      }
+
+      startBattle() {
         this.#battle.classList.toggle('hidden')
-        this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", false)
+        this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), false)
       }
 
       endBattleCharacterDied() {
-        this.#gameBoard.removeCharacter(this.characterForBattle)
+        this.removeDeadCharacter()
         if(this.#gameBoard.getNumberOfCharacters() !== 0) {
-          this.characterForBattle = this.#gameBoard.getCharacterForFight()
-          this.#battle.startBattle(this.monsterForBattle.getMonsterAttributes(),this.characterForBattle.getCharacterAttributes(), "character", true)
+          this.getCharacter()
+          this.continueBattleWithNewCharacter()
         } else {
-          this.gameEnded(false)
+          this.gameLost()
         }
+      }
+
+      removeDeadCharacter() {
+        this.#gameBoard.removeCharacter(this.characterForBattle)
+      }
+
+      /**
+       * If character died and player still has character, continue the battle with new one.
+       */
+      continueBattleWithNewCharacter() {
+        this.#battle.continueBattle(this.characterForBattle.getCharacterAttributes())
       }
 
       endBattleMonsterDied() {
         if(this.isBossReady()) {
-          this.gameEnded(true)
+          this.gameWon()
         } else {
-          this.#battle.classList.add('hidden')
-          this.#dieUi.classList.toggle('hidden')
-          this.#gameBoard.removeMonster(this.monsterForBattle)
+          this.removeDeadMonster()
+          this.resetUiAfterBattle()
           this.newTurn()
         }
       }
 
-      gameEnded(win) {
+      removeDeadMonster() {
+        this.#gameBoard.removeMonster(this.monsterForBattle)
+      }
+
+      /**
+       * Hides battle window and shows the die again.
+       */
+      resetUiAfterBattle() {
+        this.#battle.classList.add('hidden')
+        this.#dieUi.classList.toggle('hidden')
+      }
+
+      gameWon() {
+        this.displayEndScreen()
+        this.#endScreen.displayWin()
+      }
+
+      gameLost() {
+        this.displayEndScreen()
+        this.#endScreen.displayLoss()
+      }
+
+      displayEndScreen() {
         this.#window.remove()
         this.#endScreen.classList.remove('hidden')
-        if(win) {
-          this.#endScreen.displayWin()
-        } else {
-          this.#endScreen.displayLoss()
-        }
       }
    }
 
