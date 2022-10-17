@@ -12,18 +12,18 @@ import './health-bar.js'
  template.innerHTML = `
  <style>
  #holder {
-  margin-left:515px;
-  margin-top:50px;
+  margin-left:555px;
+  margin-top:400px;
   position:absolute;
-  background:white;
-  height:500px;
-  width:550px;
+  background:#4CA9B3;
+  height:380px;
+  width:480px;
   text-align:center;
+  border:solid;
  }
  #header {
-  font-size:100px;
+  font-size:80px;
   z-index:10;
-  color:red;
  }
 
  #monsterHealthbar {
@@ -39,7 +39,11 @@ import './health-bar.js'
  }
 
  #strike {
+  margin-top:-50px;
+  margin-left:-20px;
   padding:10px;
+  position:absolute;
+  border:solid;
  }
 
  #battleText {
@@ -51,17 +55,17 @@ import './health-bar.js'
  }
 
  .characterTurn {
-  background: blue;
+  background: #8A4CB3;
  }
 
  .monsterTurn {
-  background:red;
+  background:#B3564C;
  }
 
  </style>
  <div id="holder">
     <p id="header">BATTLE!</p>
-    <button id="strike"></button>
+    <button id="strike" class="characterTurn">char</button>
     <p id="battleText"></p>
     <button id="closeWindow" class="hidden">End battle.</button>
   </div>

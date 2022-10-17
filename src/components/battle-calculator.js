@@ -17,6 +17,14 @@ export class BattleCalculator {
     this.chanceCalculator = new WillChanceOccurCalculator()
   }
 
+  /**
+   * Monster or characters stats.
+   * @param {string} strength 
+   * @param {string} intelligence 
+   * @param {string} wisdom 
+   * @param {string} charisma 
+   * @param {string} dexterity 
+   */
     setStats(strength, intelligence, wisdom, charisma, dexterity) {
       this.strength = strength
       this.intelligence = intelligence
@@ -37,12 +45,15 @@ export class BattleCalculator {
   /**
    * Determines if hit should be magical.
    */
-  isMagicalHit(intelligence, strength) {
+  isMagicalHit() {
     if(this.intelligence > this.strength) {
       return true
     }
   }
 
+  /**
+   * Numerical figure how high the hit shoudl be.
+   */
   setHitNumber() {
     if(this.isMagicalHit) {
       this.hitNumber = this.intelligence * 2
@@ -51,10 +62,17 @@ export class BattleCalculator {
     }
   }
 
+  /**
+   * Legendary just means a higher number.
+   * @returns Boolean.
+   */
   isLegendaryAttack() {
     return this.chanceCalculator.willItOccur(5)
   }
 
+  /**
+   * How high the actual strike will be.
+   */
   setMagicalStrikeImpact() {
     this.resistanceCalculator.setMagicResistance(this.wisdom)
     const magicResistance = this.resistanceCalculator.getMagicResistance()
@@ -67,12 +85,23 @@ export class BattleCalculator {
     this.strike = (physicalResistance / 100) * this.hitNumber
   }
 
+  /**
+   * Dodge means that no health will be extracted.
+   * @returns Boolean
+   */
   willAttackBeDodged() {
     this.resistanceCalculator.setDodgeChance(this.charisma)
     const dodgeChance = this.resistanceCalculator.getDodgeChance()
     return this.chanceCalculator.willItOccur(dodgeChance)
   }
 
+  /**
+   * Based on percentages a hit will
+   * be dodged, legendary or strike.
+   * If strike, calculate how much in numbers
+   * it will retract from opponents health.
+   * @returns An object.
+   */
   determineBattleOutcome() {
     this.setHitNumber()
     if(this.willAttackBeDodged()) {

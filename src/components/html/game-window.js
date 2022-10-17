@@ -21,7 +21,7 @@ import './game-instructions.js'
  #window {
      height:800px;
      width:1600px;
-     background: linear-gradient(194deg, rgba(186,184,182,1) -100%, rgba(62,60,60,1) 100%);
+     background: #A9B34C;
      position:absolute;
  }
 

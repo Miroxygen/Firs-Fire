@@ -9,6 +9,10 @@ export class WillChanceOccurCalculator {
 
   /**
    * Determines if the event happens or not.
+   * Lets say percentage is 20, then 20 numbers
+   * between 1-100 will be added to an array.
+   * A random number will then be decided between 1-100.
+   * If that random number is in the array, the event will occur.
    * @param {number} percentage Chance of happening, e.g 20%.
    */
   willItOccur(percentage) {

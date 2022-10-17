@@ -16,8 +16,13 @@ import { Die } from "../die.js"
     background:white;
     border:solid 2px;
     margin-bottom:30px;
-    
+    margin-left:20px;
  }
+
+  #roll {
+    margin-left:20px;
+  }
+
  .face {
   display: inline-block;
   vertical-align:middle;

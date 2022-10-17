@@ -13,10 +13,10 @@ import { RandomEvent } from "../random-event.js"
  #eventWindow {
     height:100px;
     width:400px;
-    background: pink;
+    background: #B34CA9;
     position:absolute;
     margin-top:600px;
-    margin-left:500px;
+    margin-left:550px;
     border:solid 3px;
  }
  #button {

@@ -5,8 +5,6 @@
  * @version 1.0.0
  */
 
- import { BattleCalculator } from "../battle-calculator.js"
-
  const template = document.createElement('template')
  template.innerHTML = `
  <style>
@@ -37,7 +35,7 @@
     
      #healthBar
      #healthNumber
-     
+
      constructor () {
        super()
        this.attachShadow({ mode: 'open' })

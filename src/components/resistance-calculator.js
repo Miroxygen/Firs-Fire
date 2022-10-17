@@ -29,6 +29,10 @@ export class ResistanceCalculator {
     }
   }
 
+  /**
+   * If an attack will be avoided.
+   * @param {number} charisma 
+   */
   setDodgeChance(charisma) {
     for(let iterator = 0; iterator < charisma; iterator++) {
       this.dodgeChance += 0.5

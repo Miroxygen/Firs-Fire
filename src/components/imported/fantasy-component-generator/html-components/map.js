@@ -29,9 +29,19 @@ class extends HTMLElement {
         super()
         this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
         this.#map = this.shadowRoot.querySelector('#map')
         this.#getMap = this.shadowRoot.querySelector('#getMap')
+
         this.isMapGenerated = false
+        this.currentRoad = ""
+        this.currentMountain = ""
+        this.topValue = 0
+        this.leftValue = 0
+        this.topDirection = 0
+        this.leftDirection = 0
+        this.roadUpOrDown = 0
+        this.roadLeftOrRight = 0
 
         this.#getMap.addEventListener('click', () => {
             this.destroyCurrentMap()
@@ -49,69 +59,123 @@ class extends HTMLElement {
      */
     constructRoads() {
         for (let index = 0; index < 20; index++) {
-            const randomTopValue = Math.random() * (300) + 50
-            const randomLeftValue = Math.random() * (300) + 50
-            const plusOrMinusTop = Math.random() < 0.5 ? -1 : 1
-            const plusOrMinusLeft =  Math.random() < 0.5 ? -1 : 1
-            this.makeOneRoad(randomTopValue, randomLeftValue, plusOrMinusTop, plusOrMinusLeft)
+          this.makeOneRoad(300, 50)
         }   
     }
 
-    /**
-     * Function used with random numbers in this class.
-     * If you want to use it on its own, please read 
-     * param comments.
-     * @param {number} startValueTop Will be the value for CSS top in pixels.
-     * @param {number} startValueLeft CSS left in pixels.
-     * @param {number} changeValueTop How the css top will change with each iteration in the loop.
-     * Please use 1 for the road to go DOWN, and -1 for it to go UP.
-     * @param {number} changeValueLeft Please use 1 for the road to go LEFT, and -1 for it to go RIGHT.
-     */
-    makeOneRoad(startValueTop, startValueLeft, changeValueTop, changeValueLeft) {
-        let controllValueLeft = startValueLeft
-        let controllValueTop = startValueTop
-        for (let index = 0; index < 100; index++) {
-            const road = document.createElement('fantasy-road')
-            road.style.position = "absolute"
-            road.style.zIndex = "10"
-            this.#map.append(road)
-            const plusOrMinusTop =  Math.random() < 0.5 ? -2 : 2
-            const plusOrMinusLeft =  Math.random() < 0.5 ? -2 : 2
-            controllValueTop += (plusOrMinusTop + changeValueTop)
-            controllValueLeft += (plusOrMinusLeft + changeValueLeft)
-            road.style.left = `${controllValueLeft}px`
-            road.style.top = `${controllValueTop}px`
-        }
+
+    makeOneRoad(max, min) {
+      this.setRandomStartTop(max, min)
+      this.setRandomStartLeft(max, min)
+      this.setRoadUpOrDown(1)
+      this.setRoadLeftOrRight(1)
+      for(let index = 0; index < 100; index++) {
+        this.getRoad()
+        this.changeRoadCssLook()
+        this.appendRoad()
+        this.changeLeftDirection()
+        this.changeTopDirection()
+        this.makeRoadDirection()
+      }
+    }
+
+    getRoad() {
+      const road = document.createElement('fantasy-road')
+      this.currentRoad = road
+    }
+
+    changeRoadCssLook() {
+      this.currentRoad.style.position = "absolute"
+      this.currentRoad.style.zIndex = "10"
+    }
+
+    setRoadUpOrDown(changeValue) {
+      this.roadUpOrDown = this.getRandomRoadDirectionValue(changeValue)
+    }
+
+    setRoadLeftOrRight(changeValue) {
+      this.roadLeftOrRight = this.getRandomRoadDirectionValue(changeValue)
+    }
+
+    makeRoadDirection() {
+      this.currentRoad.style.left = `${this.leftDirection}px`
+      this.currentRoad.style.top = `${this.topDirection}px`
+    }
+
+    appendRoad() {
+      this.#map.append(this.currentRoad)
     }
 
     makeMountainRanges() {
-        for (let index = 0; index < 7; index++) {
-            this.makeMountain()  
-        }
-    }
+      for (let index = 0; index < 7; index++) {
+          this.makeMountain(400, 20)  
+      }
+  }
 
-    /**
-     * 200 elemtens stacked on each other to resemble a mountain.
+     /**
+     * 20 elemtens stacked on each other to resemble a mountain.
      * The position is randomize with CSS top and left values.
      * Each elements position is then incresed OR decresed by 0.5 to
      * make them stack irregulerly.
      */
-    makeMountain() {
-        let controllValueLeft = Math.random() * (400 - 20) + 20
-        let controllValueTop = Math.random() * (400 - 20) + 20
-        for (let index = 0; index < 200; index++) {
-            const plusOrMinusTop =  Math.random() < 0.5 ? -0.5 : 0.5
-            const plusOrMinusLeft =  Math.random() < 0.5 ? -0.5 : 0.5
-            const mountain = document.createElement('fantasy-mountain')
-            mountain.style.position = "absolute"
-            mountain.style.zIndex = "9"
-            controllValueTop += (plusOrMinusTop + plusOrMinusTop)
-            controllValueLeft += (plusOrMinusLeft + plusOrMinusLeft)
-            mountain.style.left = `${controllValueLeft}px`
-            mountain.style.top = `${controllValueTop}px`
-            this.#map.append(mountain)
+      makeMountain(max, min) {
+        this.setRandomStartTop(max, min)
+        this.setRandomStartLeft(max, min)
+        for(let index = 0; index < 20; index++) {
+          this.getMountain()
+          this.setMountainCssStyle()
+          this.changeLeftDirection()
+          this.changeTopDirection()
+          this.setMountainDirection()
+          this.appendMountain()
         }
+      }
+  
+    getMountain() {
+      const mountain = document.createElement('fantasy-mountain')
+      this.currentMountain = mountain
     }
+  
+    setMountainCssStyle() {
+      this.currentMountain.style.position = "absolute"
+      this.currentMountain.style.zIndex = "9"
+    }
+  
+    setMountainDirection() {
+      this.currentMountain.style.left = `${this.leftDirection}px`
+      this.currentMountain.style.top = `${this.topDirection}px`
+    }
+  
+    appendMountain() {
+      this.#map.append(this.currentMountain)
+    }
+
+    setRandomStartTop(max, min) {
+      this.topValue = this.getRandomStartValue(max, min)
+      this.topDirection = this.topValue
+    }
+
+    setRandomStartLeft(max, min) {
+      this.leftValue = this.getRandomStartValue(max, min)
+      this.leftDirection = this.leftValue
+    }
+
+    getRandomStartValue(max, min) {
+      return Math.random() * (max - min) + min
+    }
+
+    changeLeftDirection() {
+      this.leftDirection +=  (this.getRandomRoadDirectionValue(2) + this.roadLeftOrRight)
+    }
+
+    changeTopDirection() {
+      this.topDirection += (this.getRandomRoadDirectionValue(2) + this.roadUpOrDown)
+    }
+
+    getRandomRoadDirectionValue(changeValue) {
+      return Math.random() < 0.5 ? -changeValue : changeValue
+    }
+
 
     constructTowns() {
         for (let index = 0; index < 5; index++) {

@@ -65,7 +65,7 @@ class extends HTMLElement {
 
         this.#card = this.shadowRoot.querySelector('#card')
         this.#sheetToggleButton = this.shadowRoot.querySelector('#sheetToggleButton')
-        this.#sheetToggleButton.addEventListener('click', (event) => {
+        this.#sheetToggleButton.addEventListener('click', () => {
              this.openCard()
         })
     }

@@ -5,15 +5,13 @@
  * @version 1.0.0
  */
 
- import { BattleCalculator } from "../battle-calculator.js"
-
  const template = document.createElement('template')
  template.innerHTML = `
  <style>
   #howTo {
     height:710px;
     width:200px;
-    background:pink;
+    background:#B34CA9;
     position:absolute;
     margin-left:-200px;
     border:solid;
