@@ -9,7 +9,10 @@
  template.innerHTML = `
  <style>
  #button {
-     
+    height:50px;
+    width:150px;
+    font-size:20px;
+    margin-top:300px;
  }
  </style>
  <button id="button">
@@ -19,12 +22,12 @@
  
  customElements.define('simple-button',
  /**
-  * The backbone of the gamingcomponent.
+  * A button.
   * @type {HTMLElement}
   */
    class extends HTMLElement {
      /**
-      * Just a coloured div.
+      * Multipurpose.
       * @type {HTMLElement}
       */
      #button
@@ -32,6 +35,7 @@
        super()
        this.attachShadow({ mode: 'open' })
          .appendChild(template.content.cloneNode(true))
+         
        this.#button = this.shadowRoot.querySelector('#window')
      }
    })

@@ -5,8 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
   },
   "repository": {
     "type": "git",
@@ -17,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/Miroxygen/Firs-Fire/issues"
   },
-  "homepage": "https://github.com/Miroxygen/Firs-Fire#readme"
+  "homepage": "https://github.com/Miroxygen/Firs-Fire#readme",
+  "dependencies": {
+    "@lnu/eslint-config": "^1.1.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.25.0"
+  }
 }
