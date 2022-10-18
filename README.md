@@ -40,6 +40,12 @@ Sorry, my calculation formulas are maybe not the best. I will work on making a m
 
 Beauty is subjective.
 
+## I don't understand this piece of code.
+
+This is not a module, this is an app. The point is to play the game, not integrate this code into yours.
+However, if you want to do that and don't understand pieces of code please contact me. Either the code
+I wrote is bad, or you need help. Both things are worthy of time!
+
 ## I want to continue develope/make changes
 
 You are free to use this app/module how you want to, if you want to add functionality or change things for the better.
