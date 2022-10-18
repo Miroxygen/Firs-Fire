@@ -7,9 +7,15 @@ resistanceCalculator.setMagicResistance(5)
 resistanceCalculator.setDodgeChance(10)
 resistanceCalculator.setPhysicalResistance(2)
 
-test('Resistances are properly set', () => {
+test('Magc resistances are properly set', () => {
   expect(resistanceCalculator.getMagicResistance()).toEqual(25)
-  expect(resistanceCalculator.getDodgeChance()).toEqual(30)
+})
+
+test('Physical resistances are properly set', () => {
   expect(resistanceCalculator.getPhysicalResistance()).toEqual(10)
+})
+
+test('Dodge resistances are properly set', () => {
+  expect(resistanceCalculator.getDodgeChance()).toEqual(30)
 })
 
