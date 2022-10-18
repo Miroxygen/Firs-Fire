@@ -86,7 +86,7 @@ Men de använder båda två samma HTML element, och gör samma sak på detta ele
 ligga precis under funktionen som kallar på dem eller ligga bredvid varandra. För de är ju så lika ändå!
 
  
- # Kaitel 6 Error Handling
+ # Kaitel 7 Error Handling
  
  Felhantering är jag dålig på. Jag kanske har för stor tilltro till min förmåga att göra felfri kod, eller så vet jag precis vad som gått fel
  när något har gått fel. Men ifall jag skulle göra felhantering har boken gett mig ytterligare förstärkning i att try-catch och att skapa error-klasser/funktioner!
@@ -142,3 +142,37 @@ tom så är den i alla fall något, ett tomt objekt (JavaScript objekt) som ska 
 
 ![Skärmbild 2022-10-18 122820](https://user-images.githubusercontent.com/89847326/196406697-8885a6ef-5e9d-4e8b-b897-5560840e7835.png)
 
+# Kapitel 8 Boundaries
+
+# Kapitel 9 Unit tests
+
+Klart att testkod ska vara ren kod. Jag har nog av en ren slump lyckats skriva hyfsad ren test kod utan att tänka på det.
+Men jag gick tillbaka och ändrade en testsuite som jag hade skrivit på grund av, "One assert, or concept, per test".
+
+
+![Skärmbild 2022-10-18 162623](https://user-images.githubusercontent.com/89847326/196458601-8d3128c5-150a-41cd-9437-7b424c50af27.png)
+
+Detta är mycket mer lättläst och klart än vad jag hade tidigare, alla tre test ihopklumpade i ett test. 
+Alla dessa tre test är 1 assert var, och även fast de behandlar samma koncept (resistance) så är det ju tre olika koncept
+av resistans.
+
+# Kapitel 10 Classes
+
+Oj vilken skillnad det blir när jag skriver en "vanlig" klass mot en klass som ärver av HTMLElement. 
+Jag tycket det blir jätterörigt att göra för många små HTML komponenter, men det kanske är mig det är fel på.
+I mitt huvud när jag gör GameBoard (HTML) så försöker jag göra en klass som representerar brädet. Brädet har alltid kartan,
+karaktärerna och monsterna och kan inte existera utan dessa. Därför vill jag stoppa dessa där inne, och inte dela upp brädet 
+att en del av brädet vet bara om att kartan existerar. Trots det så har den bara ett syfte, att vara en behållare för dessa
+tre saker. Och alla variabler är privata, det går bara att prata med klassen genom att ropa på dess metoder.
+
+![Skärmbild 2022-10-18 164025](https://user-images.githubusercontent.com/89847326/196462187-d7fbcde0-7c82-4c07-b096-b6adb7c508a8.png)
+
+Detta är nog min mest perfekta klass. Den är kort, den är enkel, den gör bara en sak (slår en tärning), variabeln används av 2 av 3 metoder (high cohesion) och den är 
+mycket förberedd för en förändring. Denna tärning representar den vanliga sex-sidiga tärningen och borde dock inte vara något annat. Då borde den heta något annat, eller ha en child-klass. 
+
+# Kapitel 11 System
+
+Här måste jag erkänna att jag hade svårt att förstå det här kapitlet, och jag måste nog läsa om det fler gånger än de andra. Mycket kan ha att göra med
+att jag inte riktigt är så duktig på Java. Det jag dock förstod och som jag har läst om tidigare är just Separation of concerns. Vem ska göra vad?
+Vem är mest lämpad att göra vad? Detta tankesätt har tyvärr inte genomsyrat min tidigare JavaScript kod, men det är ett bra sätt att tänka oavsett
+om man jobbar med bara funktioner i JavaScript, eller bygga ihop Ikea möbler med sin polare. Jag tycker det är lättare att illustrera SoC med ett diagram.
