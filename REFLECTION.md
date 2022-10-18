@@ -62,6 +62,83 @@ Jag skriver i kommentaren att korten har position absolute, och jag måste ta bo
 
 # Kapitel 5 Formatting
 
+**Dependant Functions and Conceptual Affinity**
+
+Jag tyckte dessa två kapitel var snarlika i budskapet de ville få fram, skillnaden är att
+dependant functions känns som en typ av conceptual affinity. Nåväl, budskapet är att kod
+som har något gemensant ska hänga ihop i distant. Alltså, distansen ska vara så kort som möjlig. 
+
+En funktion som använder en annan bör vara ovanpå denne. 
+
+![Skärmbild 2022-10-18 113928](https://user-images.githubusercontent.com/89847326/196395204-b752afaa-18b0-4839-8ee3-c08ead4f4561.png)
+
+Ett exempel. startBattle är en funktion vars funktion är att använda andra funktioner. startBattle har ingenting annat än en
+massa beroenden till andra funktioner. startBattle ska vara ovanpå funktionerna den kallar på.
+
+
+Det finns även kod som inte använder varandra, men ändå har en länk till varandra som gör att de rent visuellt borde vara nära varandra.
+
+
+![Skärmbild 2022-10-18 114225](https://user-images.githubusercontent.com/89847326/196396241-80a3b433-53e3-4d2e-9998-a947ab16b022.png)
+
+removeHealthVisible och resetHealthVisible gör två motsatta grejer. Den andra tar bort, den andra återställer. De blir både aldrig kallade samtidigt.
+Men de använder båda två samma HTML element, och gör samma sak på detta element. De ändrar färgen på den! Så dessa hade två alternativ,
+ligga precis under funktionen som kallar på dem eller ligga bredvid varandra. För de är ju så lika ändå!
 
  
+ # Kaitel 6 Error Handling
  
+ Felhantering är jag dålig på. Jag kanske har för stor tilltro till min förmåga att göra felfri kod, eller så vet jag precis vad som gått fel
+ när något har gått fel. Men ifall jag skulle göra felhantering har boken gett mig ytterligare förstärkning i att try-catch och att skapa error-klasser/funktioner!
+ Jag tycker likt i boken att viss felhantering gör koden stor och klumpig, men en klass vars enda uppgift är att kasta undantag gör ju att "vanliga" klasser 
+ bara behöver omges av try-catch och använda error-funktionen.
+   
+   //Javascript  
+ addBakingRecipe(recipe)  {  
+   try  {  
+     if(recipe !== Typeof(string)) {  
+         throw new Error("Recipe needs to be a string")  
+       }  else  {  
+         this.#recipeBook.addRecipe(recipe)  
+         }  
+   } catch(error) {  
+     console.log(error.message)  
+   }  
+ }  
+ 
+ Den blir väldigt lång och klumpig. Istället :  
+ 
+ this.#errorHandler = new ErroHandler()  
+ 
+ addBakingRecipe(recipe) {    
+   try {  
+     this.#erroHandler.checkIfString(recipe)  
+     this.#recipeBook.addRecipe(recipe)  
+   } catch(error) {   
+     console.log(error.message)    
+   }   
+ }  
+   
+ //Kan ju nu användas av alla klasser, inte bara recept-klassen!  
+ checkIfString(input) {   
+   if(input !== Typeof(string)) {  
+     throw new Error("Input needs to be a string")  
+   }  
+ }  
+ 
+**Don't pass/return null**
+
+Nu existerar ju null i JavaScript, och betyder ju att något saknar värde.  
+Det finns även undefined som betyder, ja, att något helt enkelt inte är 
+definerat ännu. Undefined är något jag stöter på oftare. Jag har aldrig
+get ett värde null i JavaScript, men i Java har det förekommit att jag gjort det.
+Jag har dock gett en variabel värdet undefined innan jag sätter ett värde med funktioner. 
+Det är helt meningslöst flesta gånger att en variabel helt enkelt inte är något.
+Vi ska ju arbete med värden och typer, inte någon icke-värdes minnesposition.
+
+Jag gjorde om denna från undefined till att ha typen object. Även fast den är
+tom så är den i alla fall något, ett tomt objekt (JavaScript objekt) som ska fyllas.  
+
+
+![Skärmbild 2022-10-18 122820](https://user-images.githubusercontent.com/89847326/196406697-8885a6ef-5e9d-4e8b-b897-5560840e7835.png)
+
