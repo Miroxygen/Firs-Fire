@@ -144,6 +144,23 @@ tom så är den i alla fall något, ett tomt objekt (JavaScript objekt) som ska 
 
 # Kapitel 8 Boundaries
 
+Att använda andra människors komponenter genom ett beroende kan alltid skapa ovisshet i att de fungerar och leverer det de ska.
+Nu vet ju jag om komponenten jag använder i appen kommer att förändras, efter det är jag som gör båda, men om det var någon
+annan som levererade mig slumpmässiga monster och karaktärer så har jag ju ingen aning.
+
+**Learning test**
+
+Att bygga tester för att säkerställa att importerade komponenter gör det de ska skapar trygghet. Då ser man direkt genom tester
+ifall komponenterna har ändrats, och vet på så vis varför appen inte fungerar. Då vet man att det är utvärtes effekter
+som kan ha skapat en bugg, vilket säkerligen sprarar en hel del tid.
+
+
+![Skärmbild 2022-10-18 183032](https://user-images.githubusercontent.com/89847326/196490219-d3c0f583-4e23-47bc-99a1-87a5a78ca9a5.png)
+
+Här har jag test som säkerställer att dessa generatorer alltid kommer leverera mig ett objekt. Gör det inte det, så går flera delar
+av min app sönder. Med detta test kommer jag alltid veta att det är generatorerna det är fel på.
+
+
 # Kapitel 9 Unit tests
 
 Klart att testkod ska vara ren kod. Jag har nog av en ren slump lyckats skriva hyfsad ren test kod utan att tänka på det.
@@ -175,4 +192,18 @@ mycket förberedd för en förändring. Denna tärning representar den vanliga s
 Här måste jag erkänna att jag hade svårt att förstå det här kapitlet, och jag måste nog läsa om det fler gånger än de andra. Mycket kan ha att göra med
 att jag inte riktigt är så duktig på Java. Det jag dock förstod och som jag har läst om tidigare är just Separation of concerns. Vem ska göra vad?
 Vem är mest lämpad att göra vad? Detta tankesätt har tyvärr inte genomsyrat min tidigare JavaScript kod, men det är ett bra sätt att tänka oavsett
-om man jobbar med bara funktioner i JavaScript, eller bygga ihop Ikea möbler med sin polare. Jag tycker det är lättare att illustrera SoC med ett diagram.
+om man jobbar med bara funktioner i JavaScript, eller bygga ihop Ikea möbler med sin polare. 
+
+Min game-window klass fyller inget visuellt eller konceptuellt syfte. Den klassens syfte är att föra tillsammans alla andra klasser, så att hela spelet
+blir till ett fönster.
+
+![Skärmbild 2022-10-18 172916](https://user-images.githubusercontent.com/89847326/196476050-da3072cc-41ee-457b-af4f-3b2d58dc1118.png)
+
+Game-window har väldigt många beroenden, så att alla beroenden har en rak linje till en och samma klass.
+
+![Skärmbild 2022-10-18 172936](https://user-images.githubusercontent.com/89847326/196476189-d0956df4-a62c-4856-a944-876d29ea81ae.png)
+
+Game-windows syfte är att lyssna på andra klasser, och använda deras funktioner. Game-window blir spindeln i nätet som väver samman alla andra klasser, vars uppgift är att göra vad de är bäst på. De andra klasserna blir inte duktiga om de har kringelkrokiga beroenden mellan varandra. 
+
+
+
