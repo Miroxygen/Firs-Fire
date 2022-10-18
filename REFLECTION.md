@@ -85,6 +85,24 @@ removeHealthVisible och resetHealthVisible gör två motsatta grejer. Den andra 
 Men de använder båda två samma HTML element, och gör samma sak på detta element. De ändrar färgen på den! Så dessa hade två alternativ,
 ligga precis under funktionen som kallar på dem eller ligga bredvid varandra. För de är ju så lika ändå!
 
+# Kaptel 6 Objects and data structures
+
+I JavaScript så är ju ett objekt en data struktur. En instans av en klass är ett "objekt".
+Det boken vill förmedla är att ett objekt ska inte tala om hur den ser ut på insidan, den ska bara
+visa hur den fungerer. En data struktur är en öppen bok, men den har ingen funktion alls.
+
+Här har jag privat data strukturer inuti en klass. Deras information ska kunna nås av andra klasser, men de gör ingenting alls.
+
+![Skärmbild 2022-10-18 184216](https://user-images.githubusercontent.com/89847326/196491927-12da5b18-c9d6-4162-b992-81af9431a6ca.png)
+
+De är ju också unti ett objekt, så informationen om denna data stuktur är inte synlig på utsidan.
+
+Här är en metod som är synlig på utsidan där information från data strukturen gör sig känna.
+Själva varibeln är privat och går inte att nå eller förstå, men just ett fält ur strukturen ges här tillåtelse att användas.
+![Skärmbild 2022-10-18 184508](https://user-images.githubusercontent.com/89847326/196493047-29eec40a-28a7-473a-a42d-ae5fd191a4d3.png)
+
+
+
  
  # Kaitel 7 Error Handling
  
